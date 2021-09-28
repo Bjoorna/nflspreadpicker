@@ -1,0 +1,33 @@
+<div class="gridcontainer">
+
+    <div class="gamecontainer">
+        <div class="gamecard" *ngFor="let game of games">
+            <div *ngIf="isAdmin" class="etc">
+                <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button mat-menu-item>Change Line</button>
+                    <button mat-menu-item>Add Result</button>
+                </mat-menu>
+            </div>
+            <div class="awayteam teamviev">
+                <div class="teamimage">
+                    <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
+                </div>
+                <h3>{{game.awayteam.name}}</h3>
+            </div>
+            <div class="hometeam teamviev">
+                <div class="teamimage">
+                    <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
+                </div>
+                <h3>{{game.hometeam.name}}</h3>
+            </div>
+            <div class="buttonrow">
+                <button class="button" color="primary" mat-stroked-button>{{getFavorite(game)[0]}} -{{getFavorite(game)[1]}}</button>
+                <button class="button" color="primary" mat-stroked-button>Push</button>
+                <button class="button" color="primary" mat-stroked-button>{{getFavorite(game)[0]}} +{{getFavorite(game)[1]}}</button>
+            </div>
+        </div>        
+    </div>
+</div>
