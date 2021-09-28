@@ -2,7 +2,7 @@ const express = require('express');
 
 const app = express();
 
-app.use(express.static('./dist/woapp'));
+app.use(express.static('./dist/picker'));
 
 app.get('/*', (req,res) => 
     res.sendFile('index.html', {root: 'dist/picker/'}),
