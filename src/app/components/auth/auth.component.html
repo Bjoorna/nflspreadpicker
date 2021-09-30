@@ -1,0 +1,67 @@
+<div class="gridcontainer">
+    <div class="logincontainer">
+        <ng-container *ngIf="isLoginMode">
+            <div class="logincard">
+                <div class="loginheader">
+                    <h2>Login</h2>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="logincardcontent">
+                    <ng-container>
+                        <form [formGroup]="loginForm">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput
+                                id="email" name="email" formControlName="email">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Password</mat-label>
+                                <input type="password" matInput
+                                id="password" name="password" formControlName="password">
+                            </mat-form-field>
+                        </form>    
+                    </ng-container>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="logincardbuttons">
+                    <button class="loginbutton" (click)="onLogin()" [disabled]="!loginForm.valid"  mat-flat-button color="primary">Login</button>
+                    <button (click)="toggleMode()" class="signupbutton" mat-stroked-button color="accent">Sign Up</button>
+                </div>
+            </div>
+        </ng-container>
+        <ng-container *ngIf="!isLoginMode">
+            <div class="logincard">
+                <div class="loginheader">
+                    <h2>Sign Up</h2>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="logincardcontent">
+                    <ng-container>
+                        <form [formGroup]="signupForm">
+                            <mat-form-field appearance="outline">
+                                <mat-label>Name</mat-label>
+                                <input type="text" matInput
+                                id="name" name="name" formControlName="name">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Email</mat-label>
+                                <input type="email" matInput
+                                id="email" name="email" formControlName="email">
+                            </mat-form-field>
+                            <mat-form-field appearance="outline">
+                                <mat-label>Password</mat-label>
+                                <input type="password" matInput
+                                id="password" name="password" formControlName="password">
+                            </mat-form-field>
+                        </form>    
+                    </ng-container>
+                </div>
+                <mat-divider></mat-divider>
+                <div class="logincardbuttons">
+                    <button class="loginbutton"[disabled]="!signupForm.valid" (click)="onSignUp()" mat-flat-button color="primary">Create User</button>
+                    <button class="signupbutton" (click)="toggleMode()" mat-stroked-button color="accent">Back</button>
+                </div>
+            </div>
+        </ng-container>
+    </div> 
+</div>

@@ -3,7 +3,9 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  server: 'https://spreadpickerserver.herokuapp.com/',
+  localhost: 'http://localhost:8080'
 };
 
 /*
