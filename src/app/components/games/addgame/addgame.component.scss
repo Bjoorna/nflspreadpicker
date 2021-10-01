@@ -1,0 +1,16 @@
+.addgamecontainer{
+    grid-column: 1/5;
+
+    .addgamecard{
+        padding: 10px;
+        width: 318px;
+        height: min-content;
+        background-color: white;
+        border-radius: 6px;
+
+        .resultfield{
+            display: flex;
+            flex-direction: row;
+        }
+    }
+}

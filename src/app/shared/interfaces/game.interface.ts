@@ -4,6 +4,8 @@ export interface IGame{
     hometeam: ITeam;
     awayteam: ITeam;
     week: number;
-    spread: string;
+    spread: number | null; 
+    favorite: ITeam | null;
+    result: Array<number>;
   }
   

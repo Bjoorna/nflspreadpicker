@@ -1,0 +1,79 @@
+<div class="gridcontainer">
+    <div class="addgamecontainer">
+        <div class="addgamecard">
+            <div class="cardheader">
+                <h3>Add Game</h3>
+            </div>
+            <mat-divider></mat-divider>
+            <div class="cardcontent">
+                <form [formGroup]="gameForm">
+                    <mat-form-field appearance="outline">
+                        <mat-label>HomeTeam</mat-label>
+                        <mat-select formControlName="hometeam">
+                            <mat-option *ngFor="let team of teams" value="{{team.name}}">
+                                <span>{{team.name}}</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>AwayTeam</mat-label>
+                        <mat-select formControlName="awayteam">
+                            <mat-option *ngFor="let team of teams" value="{{team.name}}">
+                                <span>{{team.name}}</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field appearance="outline">
+                        <mat-label>Week</mat-label>
+                        <input matInput type="number" min=1 max=18 formControlName="week">
+                    </mat-form-field>
+                    <div class="favoritepicker" *ngIf="gameForm.valid">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Favorite</mat-label>
+                            <mat-select formControlName="favorite">
+                                <!-- <mat-optgroup *ngFor="let x of throwawaylist" [label]="x">
+                                    <mat-option value="{{getTeam(x)}}">
+                                        <span>{{getTeam(x)}}</span>
+                                    </mat-option>
+                                </mat-optgroup> -->
+                                <mat-optgroup label="Home Team">
+                                    <mat-option value="{{gameForm.value.hometeam}}">
+                                        <span>{{gameForm.value.hometeam}}</span>
+                                    </mat-option>
+                                </mat-optgroup>
+                                <mat-optgroup label="Away Team">
+                                    <mat-option value="{{gameForm.value.awayteam}}">
+                                        <span>{{gameForm.value.awayteam}}</span>
+                                    </mat-option>
+                                </mat-optgroup>
+
+                            </mat-select>
+                        </mat-form-field>
+                        <mat-form-field appearance="outline">
+                            <mat-label>Spread</mat-label>
+                            <input matInput min="0" type="number" formControlName="spread" step="0.5">
+                        </mat-form-field>
+                        <div class="resultfieldcontainer">
+                            <h4>Result</h4>
+                            <div class="resultfield">
+                                <mat-form-field [style.width.px]=80 [style.margin-right.px]=20 appearance="outline">
+                                    <mat-label>Home</mat-label>
+                                    <input matInput min=0 type="number" formControlName="hscore">
+                                </mat-form-field>
+                                      
+                                <mat-form-field [style.width.px]=80 appearance="outline">
+                                    <mat-label>Away</mat-label>
+                                    <input matInput min=0 type="number" formControlName="ascore">
+                                </mat-form-field>    
+                            </div>
+    
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="cardactions">
+                <button [disabled]="!gameForm.valid" mat-flat-button (click)="onAddGame()" color="primary">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

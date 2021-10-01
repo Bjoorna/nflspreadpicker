@@ -26,6 +26,9 @@ export class TeamService{
         const localhost = environment.localhost + "team";
         const server = environment.server + "team"
 
+        if(this.teams.value.length > 0){
+            return;
+        }
         this.http.get<IServerResponse>(server).subscribe(result => {
             if(result.error){
                 console.log(result.error);

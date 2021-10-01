@@ -24,12 +24,16 @@
             <div class="optionsselect" *ngIf="userIsAdmin">
                 <button color="primary" mat-icon-button><mat-icon>more_vert</mat-icon></button>
             </div>
-            <button mat-button (click)="generateGames(7)">GG</button>
+            <!-- <button mat-button [disabled]="teams.length < 1" (click)="generateGames(7)">GG</button> -->
 
         </div>
     </div>
 
     <div class="gamecontainer">
+        <!-- <div class="test">
+            <input matInput [ngxTimepicker]="picker" [format]="24" >
+            <ngx-material-timepicker (timeSet)="printTime($event)" #picker></ngx-material-timepicker>
+        </div> -->
         <div class="gamecard" *ngFor="let game of games">
             <div *ngIf="isAdmin" class="etc">
                 <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
@@ -40,14 +44,6 @@
                     <button mat-menu-item>Add Result</button>
                 </mat-menu>
             </div>
-            <div class="awayteam teamviev">
-                <div class="teamimage">
-                    <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
-                </div>
-                <p>{{game.awayteam.name}}</p>
-                <p class="record">({{game.awayteam.record}})</p>
-
-            </div>
             <div class="hometeam teamviev">
                 <div class="teamimage">
                     <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
@@ -55,10 +51,20 @@
                 <p>{{game.hometeam.name}}</p>
                 <p class="record">({{game.hometeam.record}})</p>
             </div>
-            <div class="buttonrow">
-                <button class="button" color="primary" mat-stroked-button>{{getFavorite(game)[0]}} -{{getFavorite(game)[1]}}</button>
+            <div class="awayteam teamviev">
+                <div class="teamimage">
+                    <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
+                </div>
+                <p>{{game.awayteam.name}}</p>
+                <p class="record">({{game.awayteam.record}})</p>
+            </div>
+            <div class="buttonrow" *ngIf="hasFavorite(game) && game.favorite">
+                <button class="button" color="primary" mat-stroked-button>{{game.hometeam.abbreviation}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+')}}{{game.spread}}</button>
                 <button class="button" color="primary" mat-stroked-button>Push</button>
-                <button class="button" color="primary" mat-stroked-button>{{getFavorite(game)[0]}} +{{getFavorite(game)[1]}}</button>
+                <button class="button" color="primary" mat-stroked-button>{{game.awayteam.abbreviation}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}</button>  
+            </div>
+            <div class="favnotsettext" *ngIf="(!hasFavorite(game))">
+                <h3>Spread has not been set</h3>
             </div>
         </div>        
     </div>
