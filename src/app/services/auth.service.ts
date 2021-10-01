@@ -20,15 +20,12 @@ export class AuthService{
 
     logoutTimer: any;
 
-
     constructor(private http: HttpClient, private router: Router){}
 
 
     signup(user: IUser): Observable<ISignupResponse>{
         const server = environment.server + 'auth/signup';
         const localhost = environment.localhost + 'auth/signup';
-
-        console.log(localhost);
 
         return this.http.post<ISignupResponse>(server, user).pipe(tap(resData => {
             if(resData.error){
@@ -41,7 +38,6 @@ export class AuthService{
     }
 
     login(user: ILoginUser): Observable<ISignupResponse>{
-
         const server = environment.server + 'auth/login';
         const localhost = environment.localhost + 'auth/login';
         return this.http.post<ISignupResponse>(server, user).pipe(tap(resData => {
@@ -55,14 +51,15 @@ export class AuthService{
     }
 
     private handleUserAuth(token: string){
-        console.log("From userHandle: " + token);
+        // console.log("From userHandle: " + token);
         let decodedToken: TokenInfo = jwt_decode(token);
+        // console.log(decodedToken);
         
         // hardcoding a expirationtime of 1 hour
         // TODO change this
         let expirationDate = new Date(Date.now());
         expirationDate.setHours(expirationDate.getHours() + 1);
-        const user = new ClientUser(decodedToken.email, decodedToken.userID, token, expirationDate);
+        const user = new ClientUser(decodedToken.email, decodedToken.userID, decodedToken.isAdmin, token, expirationDate);
         this.authCredentials.next(user);
         this.autoLogout(3600);
         localStorage.setItem("user", JSON.stringify(user));
@@ -81,8 +78,23 @@ export class AuthService{
         localStorage.removeItem('user');
     }
 
+    getAuthToken(): string {
+        if(this.authCredentials == null){
+            return '';
+        }
+        
+        let usertap = this.authCredentials.getValue();
+        if(!usertap){
+            return '';
+        }
 
-
+        const token = usertap.token;
+        if(token == null){
+            return '';
+        }else{
+            return token;
+        }
+    }
 }
 
 export interface IUser{
@@ -104,6 +116,7 @@ export interface ISignupResponse{
 export interface TokenInfo{
     email: string,
     userID: string,
+    isAdmin: boolean,
     exp: number,
     iat: number
 }

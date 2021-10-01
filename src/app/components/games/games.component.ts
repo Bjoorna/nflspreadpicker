@@ -8,6 +8,8 @@ import { environment } from 'src/environments/environment';
 
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { GameService } from 'src/app/services/game.service';
+import { UserService } from 'src/app/services/user.service';
+import { AuthService } from 'src/app/services/auth.service';
 
 
 @Component({
@@ -30,7 +32,9 @@ export class GamesComponent implements OnInit {
 
   constructor(
       private teamService: TeamService,
-      private gameService: GameService) { }
+      private gameService: GameService,
+      private userService: UserService,
+      private authService: AuthService) { }
 
   ngOnInit(): void {
     this.teamService.teams.subscribe(teams => {
@@ -67,6 +71,18 @@ export class GamesComponent implements OnInit {
 
   getTeams(): void{
     this.teamService.getTeamsfromServer();
+  }
+
+  testbutton(): void{
+    console.log("hello?")
+    let userValue = this.authService.authCredentials.getValue();
+    console.log(userValue);
+    if(userValue){
+      this.userService.getUser(userValue.userID).subscribe(test => {
+        console.log(test);
+      });
+    }
+    
   }
 
 }
