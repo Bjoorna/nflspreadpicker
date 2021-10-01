@@ -6,12 +6,12 @@
                     <mat-label>Team</mat-label>
                     <mat-select>
                         <mat-option *ngFor="let team of teams">
-                            <img width="30" height="30" src="{{team.imageurl}}"><span>{{team.name}}</span>
+                            <img  height="30" src="{{team.imageurl}}"><span>{{team.name}}</span>
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
-            <div class="weekselekt">
+            <div class="weekselect">
                 <mat-form-field [style.width.px]=80 appearance="outline">
                     <mat-label>Week</mat-label>
                     <mat-select>
@@ -24,6 +24,8 @@
             <div class="optionsselect" *ngIf="userIsAdmin">
                 <button color="primary" mat-icon-button><mat-icon>more_vert</mat-icon></button>
             </div>
+            <button mat-button (click)="generateGames(7)">GG</button>
+
         </div>
     </div>
 

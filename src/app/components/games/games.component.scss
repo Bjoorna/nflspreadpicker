@@ -20,6 +20,15 @@
             // .teamselectfield{
             //     margin-bottom:20px;
             // }
+
+            .mat-option-text{
+                // display: flex;
+                // flex-direction: row;
+                // align-items: baseline;
+                img{
+                    margin-top: 10px;
+                }
+            }
         }
 
         .optionsselect{
@@ -30,6 +39,7 @@
     }
 
 }
+
 
 .gamecontainer{
     grid-column: 1/5;
@@ -74,6 +84,8 @@
 
             h3{margin: 0;}
 
+            p{margin: 0;}
+
             .teamimage{
                 margin-right: 10px;
                 max-height: 50px;
@@ -114,9 +126,6 @@
             align-items: flex-end;
             justify-content: flex-start;
 
-            .adminbutton{
-
-            }
         }
 
         
@@ -132,3 +141,25 @@
     }
 }
 
+
+@media only screen and (min-width: 700px){
+    .settingscontainer{
+        grid-column: 1/9;
+    
+        margin-bottom: 10px;
+        .settings{
+            width: 648px;
+        }    
+    }    
+    .gamecontainer{
+        grid-column: 1/9;
+    
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 5px 10px;
+        border-radius: 4px;
+    
+    }
+}

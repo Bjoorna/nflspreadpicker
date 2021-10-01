@@ -25,12 +25,12 @@ export class AuthService{
 
 
     signup(user: IUser): Observable<ISignupResponse>{
-        const server = environment.server + '/auth/signup';
-        const localhost = environment.localhost + '/auth/signup';
+        const server = environment.server + 'auth/signup';
+        const localhost = environment.localhost + 'auth/signup';
 
         console.log(localhost);
 
-        return this.http.post<ISignupResponse>(localhost, user).pipe(tap(resData => {
+        return this.http.post<ISignupResponse>(server, user).pipe(tap(resData => {
             if(resData.error){
                 return;
             };
@@ -42,9 +42,9 @@ export class AuthService{
 
     login(user: ILoginUser): Observable<ISignupResponse>{
 
-        const server = environment.server + '/auth/login';
-        const localhost = environment.localhost + '/auth/login';
-        return this.http.post<ISignupResponse>(localhost, user).pipe(tap(resData => {
+        const server = environment.server + 'auth/login';
+        const localhost = environment.localhost + 'auth/login';
+        return this.http.post<ISignupResponse>(server, user).pipe(tap(resData => {
             if(resData.error){
                 return;
             };

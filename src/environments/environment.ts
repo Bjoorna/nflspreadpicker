@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   server: 'https://spreadpickerserver.herokuapp.com/',
-  localhost: 'http://localhost:8080'
+  localhost: 'http://localhost:8080/'
 };
 
 /*
