@@ -7,13 +7,19 @@ import { tap } from 'rxjs/operators'
 // import { ILoginModel } from "../models/user/login.model";
 // import { ClientUser } from "../models/user/clientuser.model";
 import {environment} from 'src/environments/environment';
+import { ClientUser } from "../shared/models/clientuser.model";
 
 
-// import jwt_decode from 'jwt-decode';
+import jwt_decode from 'jwt-decode';
 
 @Injectable({ providedIn: 'root' })
 
 export class AuthService{
+
+    authCredentials = new BehaviorSubject<ClientUser | null>(null);
+
+    logoutTimer: any;
+
 
     constructor(private http: HttpClient, private router: Router){}
 
@@ -24,17 +30,57 @@ export class AuthService{
 
         console.log(localhost);
 
-        return this.http.post<ISignupResponse>(localhost, user);
+        return this.http.post<ISignupResponse>(localhost, user).pipe(tap(resData => {
+            if(resData.error){
+                return;
+            };
+            if(resData.token){
+                this.handleUserAuth(resData.token);
+            }
+        }));
     }
 
     login(user: ILoginUser): Observable<ISignupResponse>{
 
         const server = environment.server + '/auth/login';
         const localhost = environment.localhost + '/auth/login';
-
-
-        return this.http.post<ISignupResponse>(localhost, user);
+        return this.http.post<ISignupResponse>(localhost, user).pipe(tap(resData => {
+            if(resData.error){
+                return;
+            };
+            if(resData.token){
+                this.handleUserAuth(resData.token);
+            }
+        }));
     }
+
+    private handleUserAuth(token: string){
+        console.log("From userHandle: " + token);
+        let decodedToken: TokenInfo = jwt_decode(token);
+        
+        // hardcoding a expirationtime of 1 hour
+        // TODO change this
+        let expirationDate = new Date(Date.now());
+        expirationDate.setHours(expirationDate.getHours() + 1);
+        const user = new ClientUser(decodedToken.email, decodedToken.userID, token, expirationDate);
+        this.authCredentials.next(user);
+        this.autoLogout(3600);
+        localStorage.setItem("user", JSON.stringify(user));
+    }
+
+    autoLogout(time: number): void{
+        let millisec = time * 1000;
+        this.logoutTimer = setTimeout(() => {
+            this.logout()
+        }, (millisec));
+    }
+
+    logout(){
+        this.authCredentials.next(null);
+        this.router.navigate(['']);
+        localStorage.removeItem('user');
+    }
+
 
 
 }
@@ -53,4 +99,11 @@ export interface ILoginUser{
 export interface ISignupResponse{
     token?: string,
     error?: string
+}
+
+export interface TokenInfo{
+    email: string,
+    userID: string,
+    exp: number,
+    iat: number
 }

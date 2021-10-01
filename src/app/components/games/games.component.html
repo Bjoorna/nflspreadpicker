@@ -1,4 +1,31 @@
 <div class="gridcontainer">
+    <div class="settingscontainer">
+        <div class="settings">
+            <div class="teamselect">
+                <mat-form-field class="teamselectfield" [style.width.px]=120 [style.height.px]=40 appearance="outline">
+                    <mat-label>Team</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let team of teams">
+                            <img width="30" height="30" src="{{team.imageurl}}"><span>{{team.name}}</span>
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="weekselekt">
+                <mat-form-field [style.width.px]=80 appearance="outline">
+                    <mat-label>Week</mat-label>
+                    <mat-select>
+                        <mat-option *ngFor="let week of weeks" value="{{week + 1}}">
+                            {{week + 1}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="optionsselect" *ngIf="userIsAdmin">
+                <button color="primary" mat-icon-button><mat-icon>more_vert</mat-icon></button>
+            </div>
+        </div>
+    </div>
 
     <div class="gamecontainer">
         <div class="gamecard" *ngFor="let game of games">
@@ -15,13 +42,16 @@
                 <div class="teamimage">
                     <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
                 </div>
-                <h3>{{game.awayteam.name}}</h3>
+                <p>{{game.awayteam.name}}</p>
+                <p class="record">({{game.awayteam.record}})</p>
+
             </div>
             <div class="hometeam teamviev">
                 <div class="teamimage">
                     <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
                 </div>
-                <h3>{{game.hometeam.name}}</h3>
+                <p>{{game.hometeam.name}}</p>
+                <p class="record">({{game.hometeam.record}})</p>
             </div>
             <div class="buttonrow">
                 <button class="button" color="primary" mat-stroked-button>{{getFavorite(game)[0]}} -{{getFavorite(game)[1]}}</button>

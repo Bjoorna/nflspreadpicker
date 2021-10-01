@@ -7,16 +7,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class GamesComponent implements OnInit {
 
+
+  userIsAdmin: boolean = false;
+
   car: Team = {
     name: "Carolina Panthers",
     abbreviation: "Car",
-    imageurl: "http://loodibee.com/wp-content/uploads/nfl-carolina-panthers-team-logo-2.png"
+    imageurl: "http://loodibee.com/wp-content/uploads/nfl-carolina-panthers-team-logo-2.png",
+    record: "4-3"
   };
   
   atl: Team = {
     name: "Atlanta Falcons",
     abbreviation: "Atl",
-    imageurl:"http://loodibee.com/wp-content/uploads/nfl-atlanta-falcons-team-logo-2.png"
+    imageurl:"http://loodibee.com/wp-content/uploads/nfl-atlanta-falcons-team-logo-2.png",
+    record: "4-3"
   }
 
 
@@ -32,8 +37,11 @@ export class GamesComponent implements OnInit {
     awayteam: this.car,
     week: 6,
     spread: "a-4"
-
   }
+
+  weeks: Array<number> = [...Array(18).keys() ];
+
+  teams: Team[] = [this.car, this.atl];
 
   games: Game[] = [this.game1, this.game2, this.game1, this.game2, this.game1, this.game2, this.game1, this.game2];
 
@@ -74,6 +82,7 @@ export interface Team{
   name: string;
   abbreviation: string;
   imageurl: string;
+  record?: string;
 }
 
 

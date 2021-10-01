@@ -10,6 +10,8 @@ import { BrowserAnimationsModule, NoopAnimationsModule } from '@angular/platform
 import { HomeComponent } from './components/home/home.component';
 import { GamesComponent } from './components/games/games.component';
 import { AuthComponent } from './components/auth/auth.component'; 
+import { ToolbarComponent } from './components/toolbar/toolbar.component'; 
+
 
 
 import {MatButtonModule} from '@angular/material/button'; 
@@ -17,14 +19,16 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatMenuModule} from '@angular/material/menu';
 import {MatFormFieldModule} from '@angular/material/form-field'; 
 import {MatDividerModule} from '@angular/material/divider'; 
-import {MatInputModule} from '@angular/material/input'; 
+import {MatInputModule} from '@angular/material/input';
+import {MatSelectModule} from '@angular/material/select'; 
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     GamesComponent,
-    AuthComponent
+    AuthComponent,
+    ToolbarComponent
   ],
   imports: [
     BrowserModule,
@@ -39,7 +43,8 @@ import {MatInputModule} from '@angular/material/input';
     FormsModule,
     MatDividerModule,
     MatInputModule,
-    HttpClientModule
+    HttpClientModule,
+    MatSelectModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,28 @@
+.toolbarcontainer{
+    left: 0;
+    top: 0;
+
+    width: 100%;
+    height: 50px;
+    max-height: 50px;
+
+    background-color: #414b70;
+
+    .toolbarcontent{
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+
+        align-items: center;
+
+        .authbutton{
+            margin-left: auto;
+            color: #f0f2f3;
+        }
+
+        .gamesbutton{
+            color: #f0f2f3;
+        }
+    }
+}

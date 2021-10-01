@@ -1,3 +1,36 @@
+.settingscontainer{
+    grid-column: 1/5;
+
+    margin-bottom: 10px;
+
+    .settings{
+        width: 310px;
+        height: 60px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        background-color: white;
+
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+
+        .teamselect{
+            margin-right: 10px;
+
+            // .teamselectfield{
+            //     margin-bottom:20px;
+            // }
+        }
+
+        .optionsselect{
+            margin-left: auto;
+            // align-items: center;
+        }
+        
+    }
+
+}
+
 .gamecontainer{
     grid-column: 1/5;
 
@@ -51,6 +84,12 @@
                     width: 50px;
                 }
             }   
+
+            .record{
+                margin-left: 10px;
+                font-size: smaller;
+                color: rgba($color: #2e3249, $alpha: .8);
+            }
         }
 
         .buttonrow{
