@@ -50,6 +50,29 @@ export class AuthService{
         }));
     }
 
+    autoLogin(){
+        const savedUser: {
+            email: string;
+            userID: string;
+            isAdmin: boolean;
+            _token: string;
+            tokenExpiration: Date;
+        } = JSON.parse(localStorage.getItem('user') as string);
+
+        if(!savedUser){
+            return;
+        }
+
+        // check if the expirationdate is expired
+        if(new Date(savedUser.tokenExpiration).getTime() < new Date().getTime()){
+            this.logout();
+           return;
+        }
+
+        const newUser = new ClientUser(savedUser.email, savedUser.userID, savedUser.isAdmin, savedUser._token, savedUser.tokenExpiration);
+        this.authCredentials.next(newUser);
+    }
+
     private handleUserAuth(token: string){
         // console.log("From userHandle: " + token);
         let decodedToken: TokenInfo = jwt_decode(token);

@@ -33,7 +33,7 @@ export class UserService{
         const localhost = environment.localhost + "user";
         const server = environment.server + "user"
 
-        let uri = localhost + "/" + userid;
+        let uri = server + "/" + userid;
         console.log(uri);
         return this.http.get<IServerResponse>(uri).pipe(tap(serverResult => {
                 console.log(serverResult);

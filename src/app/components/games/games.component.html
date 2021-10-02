@@ -4,8 +4,8 @@
             <div class="teamselect">
                 <mat-form-field class="teamselectfield" [style.width.px]=120 [style.height.px]=40 appearance="outline">
                     <mat-label>Team</mat-label>
-                    <mat-select>
-                        <mat-option *ngFor="let team of teams">
+                    <mat-select [(value)]="teamFilter" (selectionChange)="teamFilterChange($event)">
+                        <mat-option *ngFor="let team of teams" value="{{team.name}}">
                             <img  height="30" src="{{team.imageurl}}"><span>{{team.name}}</span>
                         </mat-option>
                     </mat-select>
@@ -14,17 +14,18 @@
             <div class="weekselect">
                 <mat-form-field [style.width.px]=80 appearance="outline">
                     <mat-label>Week</mat-label>
-                    <mat-select>
+                    <mat-select [(value)]="weekFilter" (selectionChange)="weekFilterChange($event)">
                         <mat-option *ngFor="let week of weeks" value="{{week + 1}}">
                             {{week + 1}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
             </div>
+            <button (click)="resetFilters()" *ngIf="teamFilter || weekFilter" color="warn" mat-icon-button><mat-icon>clear</mat-icon></button>
             <div class="optionsselect" *ngIf="userIsAdmin">
                 <button color="primary" mat-icon-button><mat-icon>more_vert</mat-icon></button>
             </div>
-            <button mat-button (click)="testbutton()">GG</button>
+            <!-- <button mat-button (click)="testbutton()">GG</button> -->
 
         </div>
     </div>

@@ -44,12 +44,16 @@
 .gamecontainer{
     grid-column: 1/5;
 
-
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 4px;
     border-radius: 4px;
+
+    .gamecard:hover{
+        // transform: translateY(-5px);
+        // box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
+    }
 
     .gamecard{
         //temp
@@ -73,6 +77,10 @@
             "button button button button"
         ;
 
+        // transition: 2s, ease-in-out;
+        // transition-delay: 2s;
+        transition-duration: .5s;
+        transition-timing-function: ease-in-out;
 
         .teamviev{
             display: flex;
@@ -147,6 +155,7 @@
         }
         
     }
+    
 }
 
 

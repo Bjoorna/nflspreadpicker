@@ -39,4 +39,13 @@ export class GameService{
 
         return this.http.get(server);
     }
+
+    getGamesByTeam(team: ITeam): Observable<IServerResponse>{
+        const localhost = environment.localhost + "game/team";
+        const server = environment.server + "game/team";
+
+        return this.http.post(server, team);
+
+
+    }
 }

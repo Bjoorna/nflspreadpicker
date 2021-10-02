@@ -10,6 +10,7 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { GameService } from 'src/app/services/game.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
+import { FormControl } from '@angular/forms';
 
 
 @Component({
@@ -30,6 +31,12 @@ export class GamesComponent implements OnInit {
 
   isAdmin: boolean = true;
 
+  teamFilter!: string | null;
+
+  weekFilter!: number | null;
+
+  isLoading: boolean = false;
+
   constructor(
       private teamService: TeamService,
       private gameService: GameService,
@@ -42,6 +49,40 @@ export class GamesComponent implements OnInit {
     });
 
     this.getTeams();
+
+    this.gameService.getGamesByWeek(4).subscribe(result => {
+      this.games = result.payload;
+    })
+  }
+
+  teamFilterChange(event: any){
+    // console.log(event.value as ITeam);
+    console.log(this.teamFilter);
+    
+    let wantedTeam = this.teams.find(team => team.name == this.teamFilter);
+    console.log(wantedTeam);
+    if(wantedTeam){
+      this.gameService.getGamesByTeam(wantedTeam).subscribe(resData => {
+        this.games = resData.payload;
+        console.log(resData);
+      });
+    }
+  }
+
+  weekFilterChange(event: any){
+    console.log(this.weekFilter);
+    if(this.weekFilter){
+      this.gameService.getGamesByWeek(this.weekFilter).subscribe(resData => {
+        console.log(resData);
+        this.games = resData.payload;
+        this.teamFilter = null;
+      });
+    }
+  }
+
+  resetFilters(): void{
+    this.teamFilter = null;
+    this.weekFilter = null;
 
     this.gameService.getGamesByWeek(4).subscribe(result => {
       this.games = result.payload;
