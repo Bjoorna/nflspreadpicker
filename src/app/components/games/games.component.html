@@ -36,6 +36,9 @@
             <ngx-material-timepicker (timeSet)="printTime($event)" #picker></ngx-material-timepicker>
         </div> -->
         <div class="gamecard" *ngFor="let game of games">
+            <div class="infoview">
+                <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
+            </div>
             <div *ngIf="isAdmin" class="etc">
                 <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
                     <mat-icon>more_vert</mat-icon>
