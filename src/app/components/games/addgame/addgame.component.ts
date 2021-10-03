@@ -71,6 +71,7 @@ export class AddgameComponent implements OnInit {
     }
 
     let newGame: IGame = {
+      _id: "",
       hometeam: hteam,
       awayteam: ateam,
       week: values.week,

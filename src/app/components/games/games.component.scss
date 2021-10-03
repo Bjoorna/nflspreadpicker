@@ -65,17 +65,27 @@
     border-radius: 6px;
 
 
-    transition-duration: 2s;
-    transition-timing-function: ease-in-out;
+    // transition-duration: 2s;
+    // transition-timing-function: ease-in-out;
 
     .gamecard:hover{
         // transform: translateY(-5px);
         // box-shadow: 0 4px 17px rgba(0, 0, 0, 0.35);
     }
 
-    .gamecard:empty{}
+    .gamecard:first-of-type{
+        // height: 300px;
+        // background-color: #76828d;
+        // grid-template-columns: 77px 77px 77px 77px;
+        // grid-template-rows: 30px 50px 50px 150px;
 
- 
+        // grid-template-areas: 
+        //     "info info info info"
+        //     "hometeam hometeam hometeam etc"
+        //     "awayteam awayteam awayteam etc"
+        //     "button button button button"
+        // ;
+    }
 
     .gamecard{
         //temp
@@ -134,6 +144,7 @@
             height: 100%;
             width: 100%;
 
+
             h3{margin: 0;}
 
             p{margin: 0;}
@@ -165,9 +176,17 @@
             justify-content: space-evenly;
             align-items: center;
 
-            .button{
+            .predictionbutton{
                 height: 40px;
                 border-radius: 20px;
+            }
+
+            .predictedbutton{
+                height: 40px;
+                border-radius: 20px;
+
+                color: white;
+                background-color: #674270;
             }
         }
 
@@ -179,12 +198,13 @@
             justify-content: center;
         }
 
-        .etc{
-            grid-area: etc;
+        .gameoptions{
+            margin-left: auto;
+            // grid-area: etc;
             display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            justify-content: flex-start;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-end;
 
         }
 

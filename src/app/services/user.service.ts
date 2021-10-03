@@ -12,13 +12,14 @@ import { ClientUser } from "../shared/models/clientuser.model";
 import jwt_decode from 'jwt-decode';
 import { AuthService } from "./auth.service";
 import { IServerResponse } from "../shared/interfaces/serverresponse.interface";
+import { IPrediction } from "../components/games/games.component";
 
 @Injectable({ providedIn: 'root' })
 
 export class UserService{
 
     authSub!: Subscription;
-    userID: string = "";
+    // userID: string = "";
 
     userPredictions: any;
 
@@ -38,5 +39,24 @@ export class UserService{
         return this.http.get<IServerResponse>(uri).pipe(tap(serverResult => {
                 console.log(serverResult);
         }));
+    }
+
+    getUserPrediction(userID: string): Observable<IServerResponse>{
+        const localhost = environment.localhost + "user";
+        const server = environment.server + "user"
+
+        const uri = server + "/predictions/" + userID;
+
+        return this.http.get(uri);
+    }
+
+    setPrediction(userID: string, prediction: IPrediction): Observable<IServerResponse>{
+
+        const localhost = environment.localhost + "user";
+        const server = environment.server + "user"
+
+        const uri = server + "/addprediction/" + userID;
+
+        return this.http.post(uri, prediction);
     }
 }

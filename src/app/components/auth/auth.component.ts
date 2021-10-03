@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService, ILoginUser, IUser } from 'src/app/services/auth.service';
 
 @Component({
@@ -14,7 +15,7 @@ export class AuthComponent implements OnInit {
 
   isLoginMode: boolean = true;
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.initForm();
@@ -61,6 +62,10 @@ export class AuthComponent implements OnInit {
 
     this.authService.login(loginUser).subscribe( serverResponse => {
       console.log(serverResponse);
+      if(serverResponse.token){
+        this.router.navigate(['games']);
+      }
+
     })
 
 

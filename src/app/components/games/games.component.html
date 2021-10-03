@@ -22,31 +22,27 @@
                 </mat-form-field>
             </div>
             <button (click)="resetFilters()" *ngIf="teamFilter || weekFilter" color="warn" mat-icon-button><mat-icon>clear</mat-icon></button>
-            <div class="optionsselect" *ngIf="userIsAdmin">
+            <div class="optionsselect" *ngIf="isAdmin">
                 <button color="primary" mat-icon-button><mat-icon>more_vert</mat-icon></button>
             </div>
-            <!-- <button mat-button (click)="testbutton()">GG</button> -->
+            <button mat-button (click)="testbutton()">GG</button>
 
         </div>
     </div>
 
     <div class="gamecontainer">
-        <!-- <div class="test">
-            <input matInput [ngxTimepicker]="picker" [format]="24" >
-            <ngx-material-timepicker (timeSet)="printTime($event)" #picker></ngx-material-timepicker>
-        </div> -->
         <div class="gamecard" *ngFor="let game of games">
             <div class="infoview">
                 <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
-            </div>
-            <div *ngIf="isAdmin" class="etc">
-                <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
-                    <mat-icon>more_vert</mat-icon>
-                </button>
-                <mat-menu #menu="matMenu">
-                    <button mat-menu-item>Change Line</button>
-                    <button mat-menu-item>Add Result</button>
-                </mat-menu>
+                <div *ngIf="isAdmin" class="gameoptions">
+                    <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
+                        <mat-icon>more_vert</mat-icon>
+                    </button>
+                    <mat-menu #menu="matMenu">
+                        <button mat-menu-item>Change Line</button>
+                        <button mat-menu-item>Add Result</button>
+                    </mat-menu>
+                </div>
             </div>
             <div class="hometeam teamviev">
                 <div class="teamimage">
@@ -63,9 +59,15 @@
                 <p class="record">({{game.awayteam.record}})</p>
             </div>
             <div class="buttonrow" *ngIf="hasFavorite(game) && game.favorite">
-                <button class="button" color="primary" mat-stroked-button>{{game.hometeam.abbreviation}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+')}}{{game.spread}}</button>
-                <button class="button" color="primary" mat-stroked-button>Push</button>
-                <button class="button" color="primary" mat-stroked-button>{{game.awayteam.abbreviation}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}</button>  
+                 <button (click)="setPrediction(game._id, 1)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 1)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
+                    {{game.hometeam.abbreviation}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+')}}{{game.spread}}
+                </button>
+                <button (click)="setPrediction(game._id, 2)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 2)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
+                    Push
+                </button>
+                <button (click)="setPrediction(game._id, 3)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 3)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
+                    {{game.awayteam.abbreviation}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
+                </button>
             </div>
             <div class="favnotsettext" *ngIf="(!hasFavorite(game))">
                 <h3>Spread has not been set</h3>

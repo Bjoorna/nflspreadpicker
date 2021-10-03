@@ -1,6 +1,7 @@
 import { ITeam } from "./team.interface";
 
 export interface IGame{
+    _id: string;
     hometeam: ITeam;
     awayteam: ITeam;
     week: number;

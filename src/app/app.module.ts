@@ -22,6 +22,7 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker'; 
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 import { AddgameComponent } from './components/games/addgame/addgame.component';
+import { AuthInterceptor } from './components/auth/auth-interceptor';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,11 @@ import { AddgameComponent } from './components/games/addgame/addgame.component';
     MatDatepickerModule,
     [NgxMaterialTimepickerModule]
   ],
-  providers: [],
+  providers: [MatDatepickerModule,
+    {provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  }],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

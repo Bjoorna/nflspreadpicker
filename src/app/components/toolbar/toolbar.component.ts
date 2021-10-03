@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
@@ -8,11 +10,28 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class ToolbarComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
-
+  authUser!: Subscription;
   isLoggedIn: boolean = false;
 
+
+  constructor(private authService: AuthService, private router: Router) { }
+
+
   ngOnInit(): void {
+
+    this.authUser = this.authService.authCredentials.subscribe(user => {
+      if(user != null){
+        this.isLoggedIn = true;
+      }
+      if(user == null){
+        this.isLoggedIn = false;
+        this.router.navigate(['auth']);
+      }
+    });
+  }
+
+  onLogout(): void{
+    this.authService.logout();
   }
 
 }
