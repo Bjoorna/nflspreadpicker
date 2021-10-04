@@ -43,9 +43,19 @@
     }
 }
 
+.spinnercontainer{
+    grid-column: 1/5;
+
+}
+
 @media only screen and (min-width: 700px){
     .logincontainer{
         grid-column: 3/7;
 
     }
+    .spinnercontainer{
+        grid-column: 3/7;
+    
+    }
+    
 }

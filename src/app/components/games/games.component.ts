@@ -39,6 +39,7 @@ export class GamesComponent implements OnInit {
   teamFilter!: string | null;
 
   weekFilter!: number | null;
+  defaultWeek: number = 4;
 
   isLoading: boolean = false;
 
@@ -56,9 +57,7 @@ export class GamesComponent implements OnInit {
 
     this.getTeams();
 
-    this.gameService.getGamesByWeek(4).subscribe(result => {
-      this.games = result.payload;
-    });
+    this.getGames();
 
     this.authUser = this.authService.authCredentials.subscribe(user => {
       if(user != null){
@@ -79,35 +78,22 @@ export class GamesComponent implements OnInit {
     let wantedTeam = this.teams.find(team => team.name == this.teamFilter);
     console.log(wantedTeam);
     if(wantedTeam){
-      this.gameService.getGamesByTeam(wantedTeam).subscribe(resData => {
-        this.games = resData.payload;
-        console.log(resData);
-      });
+      this.getGames(undefined, wantedTeam);
     }
   }
 
   weekFilterChange(event: any){
     console.log(this.weekFilter);
     if(this.weekFilter){
-      this.gameService.getGamesByWeek(this.weekFilter).subscribe(resData => {
-        console.log(resData);
-        this.games = resData.payload;
-        this.teamFilter = null;
-      });
+      this.getGames(this.weekFilter);
+      this.teamFilter = null;
     }
   }
 
   resetFilters(): void{
     this.teamFilter = null;
     this.weekFilter = null;
-
-    this.gameService.getGamesByWeek(4).subscribe(result => {
-      this.games = result.payload;
-    })
-  }
-
-  printTime(event: string){
-    console.log(event);
+    this.getGames(this.defaultWeek);
   }
 
   isTeamFavorite(team: ITeam, game: IGame): boolean{
@@ -191,7 +177,6 @@ export class GamesComponent implements OnInit {
     }
   }
   
-
   populatePredictionMap(preds: IPrediction[]): void{
     for(let pred of preds){
       if(!this.userPredictions.has(pred.game)){
@@ -200,10 +185,36 @@ export class GamesComponent implements OnInit {
     }
   }
 
-  getGames(): void{
-    this.gameService.getGamesByWeek(4).subscribe(result => {
-      this.games = result.payload;
-    });
+  getGames(week?: number, team?: ITeam): void{
+    this.isLoading = true;
+
+    if(week){
+      this.gameService.getGamesByWeek(week).subscribe(result => {
+        this.games = result.payload;
+        this.isLoading = false;
+      });
+    }else if(team){
+      this.gameService.getGamesByTeam(team).subscribe(resData => {
+        this.games = resData.payload;
+        this.isLoading = false;
+      });
+    }else{
+      this.gameService.getGamesByWeek(this.defaultWeek).subscribe(result => {
+        this.games = result.payload;
+        this.isLoading = false;
+      });
+    }
+    
+  }
+
+  deleteGame(gameid: string): void {
+    console.log(gameid);
+    this.gameService.deleteGame(gameid).subscribe(resData => {
+      if(resData.message){
+        console.log(resData.message);
+        this.getGames();
+      }
+    })
   }
 }
 

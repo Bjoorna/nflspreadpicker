@@ -15,6 +15,8 @@ export class AuthComponent implements OnInit {
 
   isLoginMode: boolean = true;
 
+  isLoading: boolean = false;
+
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
@@ -47,8 +49,10 @@ export class AuthComponent implements OnInit {
       password: formValues.password
     };
 
-    console.log(newUser);
+    this.isLoading = true;
     this.authService.signup(newUser).subscribe(serverResponse => {
+      this.isLoading = false;
+      this.router.navigate(['games']);
     });
   }
 
@@ -60,9 +64,12 @@ export class AuthComponent implements OnInit {
       password: formValues.password
     };
 
+    this.isLoading = true;
     this.authService.login(loginUser).subscribe( serverResponse => {
       console.log(serverResponse);
       if(serverResponse.token){
+        this.isLoading = false;
+
         this.router.navigate(['games']);
       }
 

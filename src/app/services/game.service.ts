@@ -45,7 +45,12 @@ export class GameService{
         const server = environment.server + "game/team";
 
         return this.http.post(server, team);
+    }
 
+    deleteGame(gameid: string): Observable<IServerResponse> {
+        const localhost = environment.localhost + "game/" + gameid;
+        const server = environment.server + "game/" + gameid;
 
+        return this.http.delete(localhost);
     }
 }
