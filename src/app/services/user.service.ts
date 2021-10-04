@@ -55,8 +55,19 @@ export class UserService{
         const localhost = environment.localhost + "user";
         const server = environment.server + "user"
 
-        const uri = server + "/addprediction/" + userID;
+        const uri = server + "/predictions/" + userID;
 
         return this.http.post(uri, prediction);
+    }
+
+    updatePrediction(prediction: IPrediction): Observable<IServerResponse> {
+
+        const localhost = environment.localhost + "user";
+        const server = environment.server + "user"
+
+        const uri = server + "/predictions/" + prediction._id;
+
+        return this.http.put(uri, prediction);
+
     }
 }

@@ -11,7 +11,7 @@ import { GameService } from 'src/app/services/game.service';
 import { UserService } from 'src/app/services/user.service';
 import { AuthService } from 'src/app/services/auth.service';
 import { FormControl } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 
 @Component({
@@ -20,7 +20,6 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./games.component.scss']
 })
 export class GamesComponent implements OnInit {
-
 
   isAdmin: boolean = true;
 
@@ -33,8 +32,6 @@ export class GamesComponent implements OnInit {
   teams: ITeam[] = [];
 
   games: IGame[] = [];
-
-  // userPredicitons: IPrediction[] = [];
 
   userPredictions: Map<string, IPrediction> = new Map<string, IPrediction>();
   isSettingPrediction: boolean = false;
@@ -50,6 +47,7 @@ export class GamesComponent implements OnInit {
       private gameService: GameService,
       private userService: UserService,
       private authService: AuthService) { }
+
 
   ngOnInit(): void {
     this.teamService.teams.subscribe(teams => {
@@ -127,7 +125,6 @@ export class GamesComponent implements OnInit {
     return true;
   }
 
-
   getTeams(): void{
     this.teamService.getTeamsfromServer();
   }
@@ -144,36 +141,42 @@ export class GamesComponent implements OnInit {
   }
   
   seeIfPredicted(gameid: string, spreadPrediction: number): boolean{
-    for(let prediction of this.userPredictions){
-      if(gameid == prediction[0]){
-        if(prediction[1].spreadPrediction == spreadPrediction){
-          return true;
-        }else{
-          return false;
-        }
+    if(this.userPredictions.has(gameid)){
+      if(this.userPredictions.get(gameid)?.spreadPrediction == spreadPrediction){
+        return true;
       }
     }
     return false;
   }
 
   setPrediction(gameid: string, spreadPrediction: number): void {
+    this.isSettingPrediction = true;
+
     // check if game is predicted on before
     if(this.userPredictions.has(gameid)){
-      console.log(this.userPredictions.get(gameid)?.spreadPrediction);
-      console.log("PREDICTED");
+      let existingPred = this.userPredictions.get(gameid);
+      if(existingPred){
+        existingPred.spreadPrediction = spreadPrediction;
+        console.log(existingPred);
+        this.userService.updatePrediction(existingPred).subscribe(resData => {
+          console.log(resData);
+          if(resData.payload){
+            this.userPredictions.set(gameid, resData.payload);
+            this.isSettingPrediction = false;
+          }
+        });
+      }
     }else{ // user have not predicted on this game yet
       let newPred: IPrediction = {
         game: gameid,
         spreadPrediction: spreadPrediction
       };
-      this.isSettingPrediction = true;
       this.userService.setPrediction(this.userID, newPred).subscribe(result => {
         console.log(result);
         if(result.payload){
-          this.populatePredictionMap(result.payload)
-          this.getGames();
+          this.populatePredictionMap(result.payload);
+          this.isSettingPrediction = false;
         }
-        this.isSettingPrediction = true;
       });
     }
   }
@@ -182,6 +185,7 @@ export class GamesComponent implements OnInit {
     if(this.userID){
       this.userService.getUserPrediction(this.userID).subscribe(result => {
         let preds: IPrediction[] = result.payload;
+        
         this.populatePredictionMap(preds);
       });
     }
@@ -206,6 +210,7 @@ export class GamesComponent implements OnInit {
 
 
 export interface IPrediction{
+  _id?: string;
   game: string;
   spreadPrediction: number;
   resultPrediciton?: Array<number>;

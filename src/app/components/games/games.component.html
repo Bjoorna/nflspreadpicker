@@ -58,15 +58,15 @@
                 <p>{{game.awayteam.name}}</p>
                 <p class="record">({{game.awayteam.record}})</p>
             </div>
-            <div class="buttonrow" *ngIf="hasFavorite(game) && game.favorite">
+            <div class="buttonrow" *ngIf="hasFavorite(game) && !isSettingPrediction">
                  <button (click)="setPrediction(game._id, 1)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 1)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-                    {{game.hometeam.abbreviation}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+')}}{{game.spread}}
+                    {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
                 </button>
                 <button (click)="setPrediction(game._id, 2)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 2)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
                     Push
                 </button>
                 <button (click)="setPrediction(game._id, 3)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 3)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-                    {{game.awayteam.abbreviation}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
+                    {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
                 </button>
             </div>
             <div class="favnotsettext" *ngIf="(!hasFavorite(game))">
