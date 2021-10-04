@@ -21,7 +21,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class GamesComponent implements OnInit {
 
-  isAdmin: boolean = true;
+  isAdmin: boolean = false;
 
   isLoggedIn: boolean = false; 
   authUser!: Subscription;
