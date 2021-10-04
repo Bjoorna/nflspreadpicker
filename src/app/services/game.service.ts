@@ -51,6 +51,6 @@ export class GameService{
         const localhost = environment.localhost + "game/" + gameid;
         const server = environment.server + "game/" + gameid;
 
-        return this.http.delete(localhost);
+        return this.http.delete(server);
     }
 }
