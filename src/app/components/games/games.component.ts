@@ -142,17 +142,29 @@ export class GamesComponent implements OnInit {
     if(this.userPredictions.has(gameid)){
       let existingPred = this.userPredictions.get(gameid);
       if(existingPred){
-        existingPred.spreadPrediction = spreadPrediction;
-        console.log(existingPred);
-        this.userService.updatePrediction(existingPred).subscribe(resData => {
-          console.log(resData);
-          if(resData.payload){
-            this.userPredictions.set(gameid, resData.payload);
+        // see if user wants to cancel prediction
+        if(existingPred.spreadPrediction == spreadPrediction){
+          this.userService.deletePrediction(existingPred).subscribe(resData => {
+            if(resData.payload){
+              this.userPredictions.delete(resData.payload.game);
+            }
             this.isSettingPrediction = false;
-          }
-        });
+          });
+        }
+        // set new prediction
+        else{
+          existingPred.spreadPrediction = spreadPrediction;
+          this.userService.updatePrediction(existingPred).subscribe(resData => {
+            console.log(resData);
+            if(resData.payload){
+              this.userPredictions.set(gameid, resData.payload);
+              this.isSettingPrediction = false;
+            }
+          });
+        }
       }
-    }else{ // user have not predicted on this game yet
+    }
+    else{ // user have not predicted on this game yet
       let newPred: IPrediction = {
         game: gameid,
         spreadPrediction: spreadPrediction

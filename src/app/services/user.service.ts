@@ -68,6 +68,15 @@ export class UserService{
         const uri = server + "/predictions/" + prediction._id;
 
         return this.http.put(uri, prediction);
-
     }
+
+    deletePrediction(prediction: IPrediction): Observable<IServerResponse> {
+        const localhost = environment.localhost + "user";
+        const server = environment.server + "user"
+
+        const uri = server + "/predictions/" + prediction._id;
+
+        return this.http.delete(uri);
+    }
+
 }
