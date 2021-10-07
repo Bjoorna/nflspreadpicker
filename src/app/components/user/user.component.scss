@@ -1,0 +1,66 @@
+.friendcontainer{
+    grid-column: 1/5;
+
+    .friendcard{
+        padding: 10px;
+        width: 308px;
+        // background-color: white;
+        background-color: white;
+
+        border-radius: 6px;
+
+
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .cardheader{
+            align-self: flex-start;
+            padding: 4px;
+        }
+
+        .cardcontent{
+
+        }
+
+        .friendlist{
+            padding: 4px;
+            width: 300px;
+
+            display: flex;
+            flex-direction: column;
+
+            // background-color: hotpink;
+            border-radius: 4px;
+            // background-color: #b4bdc4;
+            border: 1px solid #a5adc0;
+
+            .friendview{
+                height: 50px;
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+
+                padding: 5px;
+                p{
+                    margin: 0;
+                    font-size: large;
+                }
+
+                .deletefriend{
+                    margin-left: auto;
+                }
+            }
+
+            .friendview:not(.friendview:last-of-type){
+                border-bottom: 1px solid #a5adc0;
+            }
+
+            
+        }
+    }
+
+    .addfriend{
+        padding: 4px;
+        margin-top: 10px;
+    }
+}

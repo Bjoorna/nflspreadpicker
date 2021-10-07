@@ -13,8 +13,7 @@ import { AuthComponent } from './components/auth/auth.component';
 import { ToolbarComponent } from './components/toolbar/toolbar.component'; 
 import { AddgameComponent } from './components/games/addgame/addgame.component';
 import { AuthInterceptor } from './components/auth/auth-interceptor';
-
-
+import { UserComponent } from './components/user/user.component';
 
 import {MatButtonModule} from '@angular/material/button'; 
 import {MatIconModule} from '@angular/material/icon'; 
@@ -26,7 +25,10 @@ import {MatSelectModule} from '@angular/material/select';
 import {MatDatepickerModule} from '@angular/material/datepicker'; 
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner'; 
 import {MatProgressBarModule} from '@angular/material/progress-bar'; 
+import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+
+
 @NgModule({
   declarations: [
     AppComponent,
@@ -34,7 +36,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     GamesComponent,
     AuthComponent,
     ToolbarComponent,
-    AddgameComponent
+    AddgameComponent,
+    UserComponent
   ],
   imports: [
     BrowserModule,
@@ -54,7 +57,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatDatepickerModule,
     [NgxMaterialTimepickerModule],
     MatProgressSpinnerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatAutocompleteModule
   ],
   providers: [MatDatepickerModule,
     {provide: HTTP_INTERCEPTORS,

@@ -39,7 +39,7 @@ export class GamesComponent implements OnInit {
   teamFilter!: string | null;
 
   weekFilter!: number | null;
-  defaultWeek: number = 4;
+  defaultWeek: number = 5;
 
   isLoading: boolean = false;
 

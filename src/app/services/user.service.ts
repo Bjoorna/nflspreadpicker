@@ -41,6 +41,18 @@ export class UserService{
         }));
     }
 
+    searchForUsers(value: string): Observable<IServerResponse> {
+        const localhost = environment.localhost + "user";
+        const server = environment.server + "user"
+
+        let uri = localhost + "/find";
+
+        let search = {name: value};
+
+        return this.http.post(uri, search);
+
+    }
+
     getUserPrediction(userID: string): Observable<IServerResponse>{
         const localhost = environment.localhost + "user";
         const server = environment.server + "user"
