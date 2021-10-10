@@ -6,13 +6,13 @@
             </div>
             <div class="cardcontent">
                 <div class="friendlist">
-                    <!-- <div class="friendview" *ngFor="let friend of tempFriends">
-                        <p>{{friend}}</p>
+                    <div class="friendview" *ngFor="let friend of friends">
+                        <p>{{friend.name}}</p>
                         <button class="deletefriend" mat-icon-button color="warn"><mat-icon>delete</mat-icon></button>
-                    </div> -->
+                    </div>
                 </div>
                 <div class="addfriend">
-                    <!-- <mat-form-field appearance="outline">
+                   <!-- <mat-form-field appearance="outline">
                         <mat-label>Add Friend...</mat-label>
                         <input matInput [matAutocomplete]="auto" [formControl]="friendControl">
                     </mat-form-field>
@@ -21,20 +21,40 @@
                             <span>{{person.name}}</span>
                         </mat-option>
                     </mat-autocomplete> -->
-                    <!-- <div class="friendsearch">
+                     <div class="friendsearch">
                         <mat-form-field appearance="outline">
                             <mat-label>Search after Name</mat-label>
                             <input (keyup.enter)="searchForUsers()" matInput type="text" [formControl]="searchControl">
                             <button  (click)="searchForUsers()" *ngIf="searchControl.value.length > 0" color="primary" matSuffix mat-icon-button><mat-icon>search</mat-icon></button>
+                            <button (click)="resetSearch()" *ngIf="searchControl.value.length > 0" color="warn" mat-icon-button matSuffix><mat-icon>clear</mat-icon></button>
                         </mat-form-field>
                     </div>
                     <div class="displayresult">
                         <div class="displaylist" *ngFor="let friend of searchResult">
-                             <p>{{friend.name}}</p>
-                        <button class="deletefriend" mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+                            <div class="nameview">
+                                <p>{{friend.name}}</p>
+                                <button (click)="onAddFriend(friend)" class="addfriendbutton" mat-icon-button color="primary"><mat-icon>add</mat-icon></button>    
+                            </div>
                         </div>
-                    </div> -->
-
+                        <div class="displaylist" *ngIf="searchResult.length > 0">
+                            <div class="nameview">
+                                <p>Name</p>
+                                <button class="addfriendbutton" mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+                            </div>
+                            <div class="nameview">
+                                <p>Name</p>
+                                <button class="addfriendbutton" mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+                            </div>
+                            <div class="nameview">
+                                <p>Name</p>
+                                <button class="addfriendbutton" mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+                            </div>
+                            <div class="nameview">
+                                <p>Name</p>
+                                <button class="addfriendbutton" mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+                            </div>
+                       </div>
+                    </div>
                 </div>
             </div>
         </div>
