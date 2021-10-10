@@ -45,7 +45,7 @@ export class UserService{
         const localhost = environment.localhost + "user";
         const server = environment.server + "user"
 
-        let uri = localhost + "/find";
+        let uri = server + "/find";
 
         let search = {name: value};
 
@@ -57,7 +57,7 @@ export class UserService{
         const localhost = environment.localhost + "user";
         const server = environment.server + "user"
 
-        let uri = localhost + "/addfriend";
+        let uri = server + "/addfriend";
 
         const addFriendPackage = {friendID: friendID, userID: userID};
 
@@ -68,7 +68,7 @@ export class UserService{
         const localhost = environment.localhost + "user";
         const server = environment.server + "user"
 
-        let uri = localhost + "/" + userID + "/friends";
+        let uri = server + "/" + userID + "/friends";
 
         return this.http.get(uri);
     }

@@ -57,15 +57,15 @@ export class UserComponent implements OnInit {
   }
 
 
-  // searchForUsers(): void{
-  //   this.isLoading = true;
-  //   this.userService.searchForUsers(this.searchControl.value).subscribe(resData => {
-  //     if(resData.payload){
-  //       this.searchResult = resData.payload as IFriendList[];
-  //       this.isLoading = false;
-  //     }
-  //   })
-  // }
+  searchForUsers(): void{
+    this.isLoading = true;
+    this.userService.searchForUsers(this.searchControl.value).subscribe(resData => {
+      if(resData.payload){
+        this.searchResult = resData.payload as IFriendList[];
+        this.isLoading = false;
+      }
+    })
+  }
 
   onAddFriend(friend: IFriendList): void{
     console.log(friend);
