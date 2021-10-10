@@ -53,6 +53,28 @@ export class UserService{
 
     }
 
+    addFriend(friendID: string, userID: string): Observable<IServerResponse>{
+        const localhost = environment.localhost + "user";
+        const server = environment.server + "user"
+
+        let uri = localhost + "/addfriend";
+
+        const addFriendPackage = {friendID: friendID, userID: userID};
+
+        return this.http.post(uri, addFriendPackage);
+    }
+
+    getFriends(userID: string): Observable<IServerResponse> {
+        const localhost = environment.localhost + "user";
+        const server = environment.server + "user"
+
+        let uri = localhost + "/" + userID + "/friends";
+
+        return this.http.get(uri);
+    }
+
+    
+
     getUserPrediction(userID: string): Observable<IServerResponse>{
         const localhost = environment.localhost + "user";
         const server = environment.server + "user"

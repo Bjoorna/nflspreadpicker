@@ -62,5 +62,25 @@
     .addfriend{
         padding: 4px;
         margin-top: 10px;
+
+        .displayresult{
+
+            .displaylist{
+                display: flex;
+                flex-direction: column;
+    
+                .nameview{
+                    display: flex;
+                    flex-direction: row;
+    
+                    align-items: baseline;
+
+                    .addfriendbutton{
+                        margin-left: auto;
+                    }
+                }
+    
+            }
+        }
     }
 }

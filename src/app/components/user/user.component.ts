@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
+import { AuthService } from 'src/app/services/auth.service';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -15,6 +17,7 @@ export class UserComponent implements OnInit {
   // tempFriends = ["Marcus", "Sigurd", "Jone"];
 
   searchResult: IFriendList[] = [];
+  friends: IFriendList[] = [];
 
   searchControl = new FormControl('');
 
@@ -24,30 +27,33 @@ export class UserComponent implements OnInit {
 
   isLoading: boolean = false;
 
+  userID: string = "";
+
   // searchString: string = "";
-  constructor(private userService: UserService) { 
-    // this.searchList = this.friendControl.valueChanges.pipe(startWith(''),
-    //   map(name => name ? this._filterNames(name) : this.searchResult.slice()));
-  }
+  constructor(
+    private userService: UserService,
+    private authService: AuthService,
+    private router: Router) {}
 
   ngOnInit(): void {
-    //   this.friendControl.valueChanges.subscribe(value => {
-    //     if(value == ''){
-    //       this.searchResult = [];
-    //     }else{
-    //       this.userService.searchForUsers(value).subscribe(resData => {
-    //         if(resData.payload){
-    //           console.log(resData.payload);
-    //           let list: IFriendList[] = [];
-    //           for(let person of resData.payload){
-    //             let posFriend: IFriendList = {name: person.name, _id: person._id};
-    //             list.push(posFriend);
-    //             this.searchResult = list;
-    //           }
-    //         }
-    //       });
-    //     }  
-    // })
+    let authCred = this.authService.authCredentials.getValue();
+    if(authCred != null){
+      this.userID = authCred.userID;
+    }
+    if(this.userID != ""){
+      this.userService.getFriends(this.userID).subscribe(resData => {
+        if(resData.payload){
+          this.friends = resData.payload;
+          console.log(this.friends);
+        }
+      })
+    }
+    
+  }
+  
+  resetSearch(): void{
+    this.searchControl.reset('');
+    this.searchResult = [];
   }
 
 
@@ -59,6 +65,27 @@ export class UserComponent implements OnInit {
         this.isLoading = false;
       }
     })
+  }
+
+  onAddFriend(friend: IFriendList): void{
+    console.log(friend);
+    let userID: string;
+    let authCred = this.authService.authCredentials.getValue();
+    if(authCred != null){
+      userID = authCred.userID;
+      console.log(userID);
+      this.userService.addFriend(friend._id, userID).subscribe(resData => {
+        if(resData.message){
+          console.log(resData.message);
+          this.router.navigate(['games']);
+        }else{
+          console.log(resData.error);
+          this.router.navigate(['games']);
+        }
+      });
+    }else{
+      return;
+    }
   }
 
   // private _filterNames(value: string): IFriendList[]{
