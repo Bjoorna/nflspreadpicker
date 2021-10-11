@@ -14,6 +14,7 @@ import { ToolbarComponent } from './components/toolbar/toolbar.component';
 import { AddgameComponent } from './components/games/addgame/addgame.component';
 import { AuthInterceptor } from './components/auth/auth-interceptor';
 import { UserComponent } from './components/user/user.component';
+import { GamecardComponent } from './components/games/gamecard/gamecard.component';
 
 import {MatButtonModule} from '@angular/material/button'; 
 import {MatIconModule} from '@angular/material/icon'; 
@@ -37,7 +38,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     AuthComponent,
     ToolbarComponent,
     AddgameComponent,
-    UserComponent
+    UserComponent,
+    GamecardComponent
   ],
   imports: [
     BrowserModule,
