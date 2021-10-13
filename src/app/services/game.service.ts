@@ -9,11 +9,11 @@ import {environment} from 'src/environments/environment';
 import { ITeam } from "../shared/interfaces/team.interface";
 import { IServerResponse } from "../shared/interfaces/serverresponse.interface";
 import { IGame } from "../shared/interfaces/game.interface";
+import { IPrediction } from "../components/games/games.component";
 
 @Injectable({ providedIn: 'root' })
 
 export class GameService{
-
 
 
     constructor(private http: HttpClient){}

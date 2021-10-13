@@ -34,120 +34,14 @@
         <ng-container *ngIf="isLoading">
             <mat-progress-bar mode="indeterminate" color="primary"></mat-progress-bar>
         </ng-container>
-        <!-- <ng-container *ngIf="!isLoading">
-            <div class="gamecard" *ngFor="let game of games">
-                <div class="infoview">
-                    <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
-                    <div *ngIf="isAdmin" class="gameoptions">
-                        <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
-                            <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item>Change Line</button>
-                            <button mat-menu-item>Add Result</button>
-                            <button (click)="deleteGame(game._id)" mat-menu-item>Delete Game</button>
-                        </mat-menu>
-                    </div>
-                </div>
-                <div class="hometeam teamviev">
-                    <div class="teamimage">
-                        <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
-                    </div>
-                    <p>{{game.hometeam.name}}</p>
-                    <p class="record">({{game.hometeam.record}})</p>
-                </div>
-                <div class="awayteam teamviev">
-                    <div class="teamimage">
-                        <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
-                    </div>
-                    <p>{{game.awayteam.name}}</p>
-                    <p class="record">({{game.awayteam.record}})</p>
-                </div>
-                <div class="buttonrow" *ngIf="hasFavorite(game) && !isSettingPrediction">
-                     <button (click)="setPrediction(game._id, 1)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 1)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-                        {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
-                    </button>
-                    <button (click)="setPrediction(game._id, 2)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 2)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-                        Push
-                    </button>
-                    <button (click)="setPrediction(game._id, 3)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 3)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-                        {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
-                    </button>
-                </div>
-                <div class="favnotsettext" *ngIf="(!hasFavorite(game))">
-                    <h3>Spread has not been set</h3>
-                </div>
-            </div>        
-    
-        </ng-container> -->
         <ng-container *ngIf="!isLoading">
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-            <app-gamecard></app-gamecard>
-
-            <!-- <div class="gamecard" *ngFor="let game of games">
-                <div class="infoview">
-                    <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
-                    <div *ngIf="isAdmin" class="gameoptions">
-                        <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
-                            <mat-icon>more_vert</mat-icon>
-                        </button>
-                        <mat-menu #menu="matMenu">
-                            <button mat-menu-item>Change Line</button>
-                            <button mat-menu-item>Add Result</button>
-                            <button (click)="deleteGame(game._id)" mat-menu-item>Delete Game</button>
-                        </mat-menu>
-                    </div>
-                </div>
-                <div class="hometeam teamviev">
-                    <div class="teamimage">
-                        <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
-                    </div>
-                    <p>{{game.hometeam.name}}</p>
-                    <p class="record">({{game.hometeam.record}})</p>
-                </div>
-                <div class="awayteam teamviev">
-                    <div class="teamimage">
-                        <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
-                    </div>
-                    <p>{{game.awayteam.name}}</p>
-                    <p class="record">({{game.awayteam.record}})</p>
-                </div>
-                <div class="buttonrow" *ngIf="hasFavorite(game) && !isSettingPrediction">
-                     <button (click)="setPrediction(game._id, 1)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 1)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-                        {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
-                    </button>
-                    <button (click)="setPrediction(game._id, 2)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 2)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-                        Push
-                    </button>
-                    <button (click)="setPrediction(game._id, 3)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 3)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-                        {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
-                    </button>
-                </div>
-                <div class="favnotsettext" *ngIf="(!hasFavorite(game))">
-                    <h3>Spread has not been set</h3>
-                </div>
-            </div>         -->
+            <app-gamecard 
+                *ngFor="let game of gameView" 
+                [gameID]="game.gameID" [gamePrediction]="getGamePrediction(game.gameID)" 
+                [isUpdating]="game.isUpdating" 
+                (updateExistingPredictionEvent)="updatePrediction($event)" 
+                (setNewPredictionEvent)="setPrediction($event)">
+            </app-gamecard>
         </ng-container>
     </div>
 </div>

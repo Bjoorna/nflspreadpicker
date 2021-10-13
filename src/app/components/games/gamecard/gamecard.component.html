@@ -1,76 +1,97 @@
-<div class="gamecard" [ngClass]="{'update': updateSpread || updateResult }" *ngIf="game">
-    <div class="infoview">
-        <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
-        <div *ngIf="isAdmin" class="gameoptions">
-            <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
-                <mat-icon>more_horiz</mat-icon>
+<div class="gamecard"  *ngIf="game">
+    <div class="gamecardcontent" [ngClass]="{'update': updateSpread || updateResult }" *ngIf="!isUpdating">
+        <div class="infoview">
+            <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
+            <div *ngIf="isAdmin" class="gameoptions">
+                <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
+                    <mat-icon>more_horiz</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                    <button (click)="toggleSpread()" mat-menu-item>Change Line</button>
+                    <button (click)="toggleResult()"  mat-menu-item>Add Result</button>
+                    <!-- <button (click)="toggleLarge()" mat-menu-item>Large</button> -->
+    
+                    <!-- <button (click)="deleteGame(game._id)" mat-menu-item>Delete Game</button> -->
+                </mat-menu>
+            </div>
+        </div>
+        <div class="gameinfo">
+            
+        </div>
+        <div class="hometeam teamview">
+            <div class="teamimage">
+                <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
+            </div>
+            <p>{{game.hometeam.name}}</p>
+            <p class="record">({{game.hometeam.record}})</p>
+    
+        </div>
+        <div class="awayteam teamview">
+            <div class="teamimage">
+                <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
+            </div>
+            <p>{{game.awayteam.name}}</p>
+            <p class="record">({{game.awayteam.record}})</p>
+        </div>
+        <div class="buttonrow">
+    
+            <button (click)="setPrediction(1)" [ngClass]="{'predictedbutton' : seeIfPredicted( 1)}"  class="predictionbutton" color="primary" mat-stroked-button>
+                {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
             </button>
-            <mat-menu #menu="matMenu">
-                <button (click)="toggleSpread()" mat-menu-item>Change Line</button>
-                <button (click)="toggleResult()"  mat-menu-item>Add Result</button>
-                <!-- <button (click)="toggleLarge()" mat-menu-item>Large</button> -->
-
-                <!-- <button (click)="deleteGame(game._id)" mat-menu-item>Delete Game</button> -->
-            </mat-menu>
+            <button (click)="setPrediction(2)" [ngClass]="{'predictedbutton' : seeIfPredicted( 2)}" class="predictionbutton" color="primary" mat-stroked-button>
+                Push
+            </button>
+            <button (click)="setPrediction(3)" [ngClass]="{'predictedbutton' : seeIfPredicted( 3)}" class="predictionbutton" color="primary" mat-stroked-button>
+                {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
+            </button>
+    
+            <!-- <button (click)="setPrediction(game._id, 1)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 1)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
+                {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
+            </button>
+            <button (click)="setPrediction(game._id, 2)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 2)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
+                Push
+            </button>
+            <button (click)="setPrediction(game._id, 3)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 3)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
+                {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
+            </button> -->
+    
+            <!-- <button  class="predictionbutton" color="primary" mat-stroked-button>
+                {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
+            </button>
+            <button  class="predictionbutton" color="primary" mat-stroked-button>
+                Push
+            </button>
+            <button  class="predictionbutton" color="primary" mat-stroked-button>
+                {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
+            </button> -->
         </div>
-    </div>
-    <div class="hometeam teamview">
-        <div class="teamimage">
-            <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
+        <div class="spreadnotsetinfo"></div>
+        <div class="spreadupdate" *ngIf="updateSpread">
+            <mat-form-field [style.width.px]=100  appearance="outline">
+                <mat-label>Spread</mat-label>
+                <input matInput min="0" type="number" [formControl]="newSpread" step="0.5">
+            </mat-form-field>
+            <mat-form-field [style.width.px]=120  appearance="outline">
+                <mat-label>Favorite</mat-label>
+                <mat-select [formControl]="newFavorite">
+                    <mat-optgroup label="Home Team">
+                        <mat-option value="{{game.hometeam.name}}">
+                            <span>{{game.hometeam.abbreviation}}</span>
+                        </mat-option>
+                    </mat-optgroup>
+                    <mat-optgroup label="Away Team">
+                        <mat-option value="{{game.awayteam.name}}">
+                            <span>{{game.awayteam.abbreviation}}</span>
+                        </mat-option>
+                    </mat-optgroup>
+                </mat-select>
+            </mat-form-field>
+            <button (click)="onUpdateSpread()" mat-icon-button color="primary"><mat-icon>update</mat-icon></button>
         </div>
-        <p>{{game.hometeam.name}}</p>
-        <p class="record">({{game.hometeam.record}})</p>
+    
+    </div>
+    <div class="gamecardloading" *ngIf="isUpdating">
 
-    </div>
-    <div class="awayteam teamview">
-        <div class="teamimage">
-            <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
-        </div>
-        <p>{{game.awayteam.name}}</p>
-        <p class="record">({{game.awayteam.record}})</p>
-    </div>
-    <div class="buttonrow">
-        <!-- <button (click)="setPrediction(game._id, 1)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 1)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-            {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
-        </button>
-        <button (click)="setPrediction(game._id, 2)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 2)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-            Push
-        </button>
-        <button (click)="setPrediction(game._id, 3)" [ngClass]="{'predictedbutton' : seeIfPredicted(game._id, 3)}" [disabled]="!isLoggedIn" class="predictionbutton" color="primary" mat-stroked-button>
-            {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
-        </button> -->
-
-        <button  class="predictionbutton" color="primary" mat-stroked-button>
-            {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
-        </button>
-        <button  class="predictionbutton" color="primary" mat-stroked-button>
-            Push
-        </button>
-        <button  class="predictionbutton" color="primary" mat-stroked-button>
-            {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
-        </button>
-    </div>
-    <div class="spreadnotsetinfo"></div>
-    <div class="spreadupdate" *ngIf="updateSpread">
-        <mat-form-field [style.width.px]=100  appearance="outline">
-            <mat-label>Spread</mat-label>
-            <input matInput min="0" type="number" [formControl]="newSpread" step="0.5">
-        </mat-form-field>
-        <mat-form-field [style.width.px]=120  appearance="outline">
-            <mat-label>Favorite</mat-label>
-            <mat-select [formControl]="newFavorite">
-                <mat-optgroup label="Home Team">
-                    <mat-option value="{{game.hometeam.name}}">
-                        <span>{{game.hometeam.abbreviation}}</span>
-                    </mat-option>
-                </mat-optgroup>
-                <mat-optgroup label="Away Team">
-                    <mat-option value="{{game.awayteam.name}}">
-                        <span>{{game.awayteam.abbreviation}}</span>
-                    </mat-option>
-                </mat-optgroup>
-            </mat-select>
-        </mat-form-field>
-        <button (click)="onUpdateSpread()" mat-icon-button color="primary"><mat-icon>update</mat-icon></button>
+        <mat-spinner></mat-spinner>
     </div>
 </div>

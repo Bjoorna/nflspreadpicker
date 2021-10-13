@@ -10,9 +10,19 @@
     
 }
 
+.gamecardloading{
+    width: 310px;
+    max-width: 328px;
+    height: 180px;
+    max-height: 180px;
 
+    padding: 8px;
+    border-radius: 6px;
+    background-color: white;
 
-.gamecard{
+}
+
+.gamecardcontent{
     //temp
     width: 310px;
     max-width: 328px;
@@ -35,7 +45,11 @@
         "button button button button"
     ;
 
-    animation: fadein .4s; 
+    transition-property: all;
+    transition-duration: .2s;
+    transition-timing-function: ease-out;
+
+    animation: fadein .4s;
 
     .infoview{
         grid-area: info;
@@ -139,18 +153,16 @@
     
 }
 
+// .gamecard:hover{
+//     background-color: hotpink;
+// }
+
 .update{
-    background-color: hotpink;
-    // width: 310px;
-    // max-width: 328px;
     height: 260px;
     max-height: 260px;
 
     padding: 8px;
     border-radius: 6px;
-    // border: 1px solid #76828d;
-    // background-color: #f0f2f3;
-    background-color: white;
     display: grid;
     grid-template-columns: 77px 77px 77px 77px;
     grid-template-rows: 30px 50px 50px 50px 80px;
@@ -169,6 +181,6 @@
         display: flex;
         flex-direction: row;
         align-items: baseline;
-
     }
+
 }

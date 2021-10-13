@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { GameService } from 'src/app/services/game.service';
 import { UserService } from 'src/app/services/user.service';
@@ -11,13 +11,19 @@ import { IPrediction } from '../games.component';
   templateUrl: './gamecard.component.html',
   styleUrls: ['./gamecard.component.scss']
 })
-export class GamecardComponent implements OnInit {
+export class GamecardComponent implements OnInit, OnChanges {
 
   // TEST TEMP
   large: boolean = false;
 
 
-  @Input() gameID: string = "61640eeb72b8c7bc8d3ab30e";
+  @Input() gameID: string = "";
+  @Input() gamePrediction!: IPrediction | null;
+  @Input() isUpdating: boolean = false;
+  @Output() setNewPredictionEvent = new EventEmitter<IPrediction>();
+  @Output() updateExistingPredictionEvent = new EventEmitter<INewTempPrediction>();
+  // @Output() setPredictionEvent = new EventEmitter<number, string>();
+
 
   game!: IGame;
   isAdmin: boolean = true;
@@ -27,19 +33,54 @@ export class GamecardComponent implements OnInit {
   updateResult: boolean = false;
 
   newSpread: FormControl = new FormControl(null);
-  newFavorite: FormControl = new FormControl(null)
+  newFavorite: FormControl = new FormControl(null);
+
+  // gamePrediction!: IPrediction;
 
   constructor(
     private gameService: GameService,
     private userService: UserService) { }
 
   ngOnInit(): void {
-
     this.gameService.getGameByID(this.gameID).subscribe(resData => {
       if(resData.payload){
         this.game = resData.payload;
       }
-    })
+    });
+
+    // console.log(this.gamePrediction);
+  }
+
+  ngOnChanges(changes: SimpleChanges): void{
+
+    console.log(changes);
+    // if(changes.isUpdating){
+    //   // console.log(changes);
+    //   // console.log("ISUPDTATING: " + this.isUpdating)
+    //   // // this.testupdate = this.isUpdating;
+    // }
+  }
+
+
+  setPrediction(spreadPrediction: number):void{
+    this.isSettingPrediction = true;
+    // game is predicted on
+    if(this.gamePrediction){
+      let newPred: INewTempPrediction = {
+        oldPred: this.gamePrediction,
+        newSpreadPred: spreadPrediction
+      } 
+      // this.gamePrediction.spreadPrediction = spreadPrediction;
+      this.updateExistingPredictionEvent.emit(newPred);
+    }
+    else{ // no predictions for this game
+      let newPred: IPrediction = {
+        game: this.gameID,
+        spreadPrediction: spreadPrediction
+      };
+      this.setNewPredictionEvent.emit(newPred);
+    }
+
   }
 
   toggleLarge(){
@@ -103,6 +144,19 @@ export class GamecardComponent implements OnInit {
   //   }
   // }
 
+  seeIfPredicted(spreadPrediction: number): boolean{
+    if(this.gamePrediction){
+        if(this.gamePrediction.spreadPrediction == spreadPrediction){
+          return true;
+        }
+        else{
+          return false;
+        }
+    }else{
+      return false;
+    }
+  }
+
   isTeamFavorite(team: ITeam, game: IGame): boolean{
     if(team.name == game.favorite?.name){
       return true;
@@ -111,4 +165,9 @@ export class GamecardComponent implements OnInit {
     }
   }
 
+}
+
+export interface INewTempPrediction{
+  oldPred: IPrediction,
+  newSpreadPred: number
 }
