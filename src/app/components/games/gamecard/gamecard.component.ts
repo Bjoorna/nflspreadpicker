@@ -14,8 +14,6 @@ import { IPrediction } from '../games.component';
 })
 export class GamecardComponent implements OnInit, OnChanges {
 
-  // TEST TEMP
-  large: boolean = false;
 
 
   @Input() gameID: string = "";
@@ -24,7 +22,6 @@ export class GamecardComponent implements OnInit, OnChanges {
   @Output() setNewPredictionEvent = new EventEmitter<IPrediction>();
   @Output() updateExistingPredictionEvent = new EventEmitter<INewTempPrediction>();
   @Output() reloadGames = new EventEmitter<void>();
-  // @Output() setPredictionEvent = new EventEmitter<number, string>();
 
 
   game!: IGame;
@@ -96,7 +93,6 @@ export class GamecardComponent implements OnInit, OnChanges {
     this.isUpdating = true
     
     this.gameService.updateGame(this.gameID, newGameData).subscribe(resData => {
-      console.log(resData);
       if(resData.payload){
         this.game = resData.payload;
         this.isUpdating = false;
@@ -115,7 +111,6 @@ export class GamecardComponent implements OnInit, OnChanges {
 
     this.isUpdating = true; {
       this.gameService.updateGame(this.gameID, newGameData).subscribe(resData => {
-        console.log(resData);
         if(resData.payload){
           this.game = resData.payload;
           this.isUpdating = false;
@@ -127,7 +122,6 @@ export class GamecardComponent implements OnInit, OnChanges {
 
   deleteGame(): void{
     this.gameService.deleteGame(this.gameID).subscribe(resData => {
-      // this.router.navigate(['games']);
       this.reloadGames.emit();
     })
   }
