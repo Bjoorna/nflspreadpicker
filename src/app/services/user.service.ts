@@ -19,9 +19,6 @@ import { IPrediction } from "../components/games/games.component";
 export class UserService{
 
     authSub!: Subscription;
-    // userID: string = "";
-
-    // userPredictions: Map<string, IPrediction> = new Map<string, IPrediction>();
 
     constructor(
         private http: HttpClient, 
@@ -82,32 +79,8 @@ export class UserService{
         const uri = server + "/predictions/" + userID;
 
         return this.http.get(uri);
-
-        // return this.http.get(uri).pipe(tap(resData => {
-        //     if(resData.payload){
-        //         let preds: IPrediction[] = resData.payload;
-        //         for(let pred of preds){
-        //             if(!this.userPredictions.has(pred.game)){
-        //                 this.userPredictions.set(pred.game, pred);
-        //             }
-        //         }
-        //     }
-        // }));
     }
 
-    // getGamePrediction(gameID: string): IPrediction | null{
-    //     if(this.userPredictions.size > 0){
-    //         let pred = this.userPredictions.get(gameID); 
-    //         if(pred != undefined){
-    //             return pred;
-    //         }else{
-    //             return null;
-    //         }
-    //     }else{
-    //         return null;
-    //     }
-
-    // }
 
     setPrediction(userID: string, prediction: IPrediction): Observable<IServerResponse>{
 

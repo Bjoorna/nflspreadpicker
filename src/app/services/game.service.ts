@@ -50,8 +50,15 @@ export class GameService{
     getGameByID(gameID: string): Observable<IServerResponse>{
         const localhost = environment.localhost + "game/" + gameID;
         const server = environment.server + "game/" + gameID;
+        return this.http.get(server);
+    }
 
-        return this.http.get(localhost);
+    // updateGame
+    updateGame(gameID: string, game: IGame): Observable<IServerResponse>{
+        const localhost = environment.localhost + "game/" + gameID;
+        const server = environment.server + "game/" + gameID;
+
+        return this.http.put(server, game);
 
     }
 

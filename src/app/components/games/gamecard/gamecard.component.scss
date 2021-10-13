@@ -19,7 +19,6 @@
     padding: 8px;
     border-radius: 6px;
     background-color: white;
-
 }
 
 .gamecardcontent{
@@ -40,8 +39,8 @@
 
     grid-template-areas: 
         "info info info info"
-        "hometeam hometeam hometeam etc"
-        "awayteam awayteam awayteam etc"
+        "hometeam hometeam hometeam hresult"
+        "awayteam awayteam awayteam aresult"
         "button button button button"
     ;
 
@@ -150,6 +149,36 @@
     .hometeam{
         grid-area: hometeam;
     }
+
+    .result{
+        align-self: center;
+        justify-self: center;
+
+        p{
+            margin: 0;
+        }
+    }
+
+    .hresult{
+        grid-area: hresult;
+        // background-color: greenyellow;
+    }
+
+    .aresult{
+        grid-area: aresult;
+        // background-color: red;
+    }
+    
+    .loser{
+        // color: #8795a1;
+        color: #697494;
+        font-size: large;
+    }
+
+    .winner{
+        color: #414b70;
+        font-size: x-large;
+    }
     
 }
 
@@ -169,8 +198,8 @@
 
     grid-template-areas: 
         "info info info info"
-        "hometeam hometeam hometeam etc"
-        "awayteam awayteam awayteam etc"
+        "hometeam hometeam hometeam hresult"
+        "awayteam awayteam awayteam aresult"
         "button button button button"
         "update update update update"
     ;
@@ -178,6 +207,13 @@
     .spreadupdate{
         grid-area: update;
 
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    .resultupdate{
+        grid-area: update;
         display: flex;
         flex-direction: row;
         align-items: baseline;

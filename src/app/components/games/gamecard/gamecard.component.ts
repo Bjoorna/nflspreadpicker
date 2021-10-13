@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { GameService } from 'src/app/services/game.service';
 import { UserService } from 'src/app/services/user.service';
 import { IGame } from 'src/app/shared/interfaces/game.interface';
@@ -22,6 +23,7 @@ export class GamecardComponent implements OnInit, OnChanges {
   @Input() isUpdating: boolean = false;
   @Output() setNewPredictionEvent = new EventEmitter<IPrediction>();
   @Output() updateExistingPredictionEvent = new EventEmitter<INewTempPrediction>();
+  @Output() reloadGames = new EventEmitter<void>();
   // @Output() setPredictionEvent = new EventEmitter<number, string>();
 
 
@@ -35,11 +37,13 @@ export class GamecardComponent implements OnInit, OnChanges {
   newSpread: FormControl = new FormControl(null);
   newFavorite: FormControl = new FormControl(null);
 
-  // gamePrediction!: IPrediction;
+  newHometeamResult = new FormControl(null);
+  newAwayteamResult = new FormControl(null);
 
   constructor(
     private gameService: GameService,
-    private userService: UserService) { }
+    private userService: UserService,
+    private router: Router) { }
 
   ngOnInit(): void {
     this.gameService.getGameByID(this.gameID).subscribe(resData => {
@@ -52,13 +56,6 @@ export class GamecardComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void{
-
-    console.log(changes);
-    // if(changes.isUpdating){
-    //   // console.log(changes);
-    //   // console.log("ISUPDTATING: " + this.isUpdating)
-    //   // // this.testupdate = this.isUpdating;
-    // }
   }
 
 
@@ -83,10 +80,6 @@ export class GamecardComponent implements OnInit, OnChanges {
 
   }
 
-  toggleLarge(){
-    this.large = !this.large;
-  }
-
   toggleSpread(){
     this.updateSpread = !this.updateSpread;
   }
@@ -96,53 +89,48 @@ export class GamecardComponent implements OnInit, OnChanges {
   }
 
   onUpdateSpread(){
-    console.log(this.newSpread.value);
-    console.log(this.newFavorite.value);
+    let newGameData: IGame = this.game;
+
+    newGameData.spread = this.newSpread.value;
+    newGameData.favorite = this.newFavorite.value;
+    this.isUpdating = true
+    
+    this.gameService.updateGame(this.gameID, newGameData).subscribe(resData => {
+      console.log(resData);
+      if(resData.payload){
+        this.game = resData.payload;
+        this.isUpdating = false;
+        this.updateSpread = false;
+      }
+    });
   }
 
-  // setPrediction(gameid: string, spreadPrediction: number): void {
-  //   this.isSettingPrediction = true;
+  onUpdateResult(){
+    console.log(this.newHometeamResult.value);
+    console.log(this.newAwayteamResult.value);
 
-  //   // check if game is predicted on before
-  //   if(this.userPredictions.has(gameid)){
-  //     let existingPred = this.userPredictions.get(gameid);
-  //     if(existingPred){
-  //       // see if user wants to cancel prediction
-  //       if(existingPred.spreadPrediction == spreadPrediction){
-  //         this.userService.deletePrediction(existingPred).subscribe(resData => {
-  //           if(resData.payload){
-  //             this.userPredictions.delete(resData.payload.game);
-  //           }
-  //           this.isSettingPrediction = false;
-  //         });
-  //       }
-  //       // set new prediction
-  //       else{
-  //         existingPred.spreadPrediction = spreadPrediction;
-  //         this.userService.updatePrediction(existingPred).subscribe(resData => {
-  //           console.log(resData);
-  //           if(resData.payload){
-  //             this.userPredictions.set(gameid, resData.payload);
-  //             this.isSettingPrediction = false;
-  //           }
-  //         });
-  //       }
-  //     }
-  //   }
-  //   else{ // user have not predicted on this game yet
-  //     let newPred: IPrediction = {
-  //       game: gameid,
-  //       spreadPrediction: spreadPrediction
-  //     };
-  //     this.userService.setPrediction(this.userID, newPred).subscribe(result => {
-  //       console.log(result);
-  //       if(result.payload){
-  //         this.populatePredictionMap(result.payload);
-  //         this.isSettingPrediction = false;
-  //       }
-  //     });
-  //   }
-  // }
+    let newGameData: IGame = this.game;
+
+    newGameData.result = [this.newHometeamResult.value, this.newAwayteamResult.value]
+
+    this.isUpdating = true; {
+      this.gameService.updateGame(this.gameID, newGameData).subscribe(resData => {
+        console.log(resData);
+        if(resData.payload){
+          this.game = resData.payload;
+          this.isUpdating = false;
+          this.updateResult = false;
+        }
+      });
+    }
+  }
+
+  deleteGame(): void{
+    this.gameService.deleteGame(this.gameID).subscribe(resData => {
+      // this.router.navigate(['games']);
+      this.reloadGames.emit();
+    })
+  }
 
   seeIfPredicted(spreadPrediction: number): boolean{
     if(this.gamePrediction){
@@ -164,6 +152,7 @@ export class GamecardComponent implements OnInit, OnChanges {
       return false;
     }
   }
+
 
 }
 

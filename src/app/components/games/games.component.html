@@ -40,7 +40,8 @@
                 [gameID]="game.gameID" [gamePrediction]="getGamePrediction(game.gameID)" 
                 [isUpdating]="game.isUpdating" 
                 (updateExistingPredictionEvent)="updatePrediction($event)" 
-                (setNewPredictionEvent)="setPrediction($event)">
+                (setNewPredictionEvent)="setPrediction($event)"
+                (reloadGames)="getGames()">
             </app-gamecard>
         </ng-container>
     </div>
