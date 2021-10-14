@@ -13,8 +13,8 @@
 .gamecardloading{
     width: 310px;
     max-width: 328px;
-    height: 180px;
-    max-height: 180px;
+    height: 190px;
+    max-height: 190px;
 
     padding: 8px;
     border-radius: 6px;
@@ -54,6 +54,9 @@
         grid-area: info;
         display: flex;
         flex-direction: row;
+        align-items: center;
+        // margin-bottom: 5px;
+
         p{
             margin-bottom: 0;
         }
@@ -61,20 +64,23 @@
         .infoviewlabel{
             font-size: x-small;
             color: #76828d;
-
+            align-self: baseline;
         }
 
         .infoviewvalue{
             font-size: small;
             color: #3a4263;
             margin-left: 4px;
+            align-self: baseline;
+
         }
 
         .infoviewdate{
-            margin-left: 10px;
-
+            margin-left: 20px;
             font-size: small;
             color: #545d65;
+            align-self: baseline;
+
         }
     }
 
