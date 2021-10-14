@@ -2,6 +2,10 @@
     <div class="gamecardcontent" [ngClass]="{'update': updateSpread || updateResult }" *ngIf="!isUpdating">
         <div class="infoview">
             <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
+            <p *ngIf="gameDate" class="infoviewdate">
+                {{getGameHour(gameDate)}}:00 - {{getGameDay(gameDate)}} 
+                {{gameDate.toDateString().split(" ")[1]}} {{gameDate.getUTCDate() +1}}
+            </p>
             <div *ngIf="isAdmin" class="gameoptions">
                 <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
                     <mat-icon>more_horiz</mat-icon>
@@ -10,7 +14,6 @@
                     <button (click)="toggleSpread()" mat-menu-item>Change Line</button>
                     <button (click)="toggleResult()"  mat-menu-item>Add Result</button>
                     <!-- <button (click)="toggleLarge()" mat-menu-item>Large</button> -->
-    
                     <button (click)="deleteGame()" mat-menu-item>Delete Game</button>
                 </mat-menu>
             </div>
@@ -22,7 +25,7 @@
             <div class="teamimage">
                 <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
             </div>
-            <p>{{game.hometeam.name}}</p>
+            <p class="teamname">{{game.hometeam.name}}</p>
             <p class="record">({{game.hometeam.record}})</p>
     
         </div>
@@ -30,7 +33,7 @@
             <div class="teamimage">
                 <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
             </div>
-            <p>{{game.awayteam.name}}</p>
+            <p class="teamname">{{game.awayteam.name}}</p>
             <p class="record">({{game.awayteam.record}})</p>
         </div>
 
@@ -44,13 +47,13 @@
 
 
         <div class="buttonrow">
-            <button (click)="setPrediction(1)" [ngClass]="{'predictedbutton' : seeIfPredicted( 1)}"  class="predictionbutton" color="primary" mat-stroked-button>
+            <button matTooltip="Too late to place prediction" [matTooltipDisabled]="canPlacePrediction()" [disabled]="!canPlacePrediction()" (click)="setPrediction(1)" [ngClass]="{'predictedbutton' : seeIfPredicted( 1)}"  class="predictionbutton" color="primary" mat-stroked-button>
                 {{game.hometeam.abbreviation | uppercase}} {{(isTeamFavorite(game.hometeam, game) ? '-' : '+') }}{{game.spread}}
             </button>
-            <button (click)="setPrediction(2)" [ngClass]="{'predictedbutton' : seeIfPredicted( 2)}" class="predictionbutton" color="primary" mat-stroked-button>
+            <button matTooltip="Too late to place prediction" [matTooltipDisabled]="canPlacePrediction()" [disabled]="!canPlacePrediction()" (click)="setPrediction(2)" [ngClass]="{'predictedbutton' : seeIfPredicted( 2)}" class="predictionbutton" color="primary" mat-stroked-button>
                 Push
             </button>
-            <button (click)="setPrediction(3)" [ngClass]="{'predictedbutton' : seeIfPredicted( 3)}" class="predictionbutton" color="primary" mat-stroked-button>
+            <button matTooltip="Too late to place prediction" [matTooltipDisabled]="canPlacePrediction()" [disabled]="!canPlacePrediction()" (click)="setPrediction(3)" [ngClass]="{'predictedbutton' : seeIfPredicted( 3)}" class="predictionbutton" color="primary" mat-stroked-button>
                 {{game.awayteam.abbreviation  | uppercase}} {{(isTeamFavorite(game.awayteam, game) ? '-' : '+')}}{{game.spread}}
             </button>
         </div>

@@ -67,6 +67,14 @@
         .infoviewvalue{
             font-size: small;
             color: #3a4263;
+            margin-left: 4px;
+        }
+
+        .infoviewdate{
+            margin-left: 10px;
+
+            font-size: small;
+            color: #545d65;
         }
     }
 
@@ -82,6 +90,10 @@
         h3{margin: 0;}
 
         p{margin: 0;}
+
+        .teamname{
+            // color: #2e3249;
+        }
 
         .teamimage{
             margin-right: 10px;

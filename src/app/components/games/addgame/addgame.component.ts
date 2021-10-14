@@ -21,8 +21,12 @@ export class AddgameComponent implements OnInit {
   teams: ITeam[] = [];
 
 
-  throwawaylist: string[] = ["HomeTeam", "AwayTeam"];
+  // throwawaylist: string[] = ["HomeTeam", "AwayTeam"];
 
+  dateFormControl = new FormControl(new Date());
+  gameWindowControl = new FormControl();
+
+  dateNumberValue: number = 0;
   constructor(private teamService: TeamService,
               private gameService: GameService,
               private router: Router) { }
@@ -47,6 +51,12 @@ export class AddgameComponent implements OnInit {
     });
   }
 
+  testButton(){
+    console.log(this.dateFormControl.value);
+    console.log(this.gameWindowControl.value);
+
+  }
+
   getTeam(isHome: string): ITeam{
     let values = this.gameForm.value;
     let team: ITeam;
@@ -57,6 +67,55 @@ export class AddgameComponent implements OnInit {
       team = values.awayteam;
     }
     return team;
+  }
+
+  getDateNumberValue(date: Date, window: string): number{
+
+    let newDate = date;
+
+    switch(window){
+      case "no": {
+        newDate.setHours(22);
+        newDate.setMinutes(0);
+        console.log(newDate);
+        console.log(newDate.getTime());
+
+        break;
+      }
+      case "early": {
+        newDate.setHours(19);
+        newDate.setMinutes(0);
+
+        console.log(newDate);
+        console.log(newDate.getTime());
+        break;
+      }
+
+      case "late":{
+        newDate.setHours(22);
+        newDate.setMinutes(0);
+
+        console.log(newDate);
+        console.log(newDate.getTime());
+
+        break;
+      }
+      case "snf":{
+        newDate.setHours(23);
+        newDate.setMinutes(0);
+
+        console.log(newDate);
+        console.log(newDate.getTime());
+
+        break;
+      }
+
+      default: {
+        break;
+      }
+    }
+    
+    return newDate.getTime();
   }
 
   compileForm(): IGame | boolean{
@@ -70,6 +129,11 @@ export class AddgameComponent implements OnInit {
       return false;
     }
 
+    let date: Date = this.dateFormControl.value;
+
+    let window: string = this.gameWindowControl.value;
+    let gameTime = this.getDateNumberValue(date, window);
+
     let newGame: IGame = {
       _id: "",
       hometeam: hteam,
@@ -77,7 +141,8 @@ export class AddgameComponent implements OnInit {
       week: values.week,
       spread: null,
       result: [],
-      favorite: null
+      favorite: null,
+      time: gameTime
     }
 
     newGame.spread = 0;

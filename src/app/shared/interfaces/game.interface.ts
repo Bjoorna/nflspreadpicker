@@ -8,5 +8,6 @@ export interface IGame{
     spread: number | null; 
     favorite: ITeam | null;
     result: Array<number>;
+    time?: number;
   }
   

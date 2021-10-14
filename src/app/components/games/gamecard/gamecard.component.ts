@@ -37,6 +37,8 @@ export class GamecardComponent implements OnInit, OnChanges {
   newHometeamResult = new FormControl(null);
   newAwayteamResult = new FormControl(null);
 
+  gameDate!: Date;
+
   constructor(
     private gameService: GameService,
     private userService: UserService,
@@ -46,6 +48,11 @@ export class GamecardComponent implements OnInit, OnChanges {
     this.gameService.getGameByID(this.gameID).subscribe(resData => {
       if(resData.payload){
         this.game = resData.payload;
+        if(this.game.time){
+          this.gameDate = new Date(this.game.time);
+          console.log(this.gameDate) 
+        }
+        // console.log(this.game);
       }
     });
 
@@ -74,7 +81,53 @@ export class GamecardComponent implements OnInit, OnChanges {
       };
       this.setNewPredictionEvent.emit(newPred);
     }
+  }
 
+  getGameDay(day: Date): string{
+    const date = new Date(day);
+    const utcDay = day.getUTCDay();
+    let dayString: string;
+    switch (utcDay){
+      case 0:{
+        dayString = "Sun"
+        break;
+      }
+      case 1:{
+        dayString = "Mon"
+        break;
+      }case 2:{
+        dayString = "Tue"
+
+        break;
+      }case 3:{
+        dayString = "Wed"
+
+        break;
+      }case 4:{
+        dayString = "Thu"
+
+        break;
+      }case 5:{
+        dayString = "Fri"
+
+        break;
+      }case 6:{
+        dayString = "Sat"
+        break;
+      }default: {
+        dayString = "Sun"
+      }
+    }
+    return dayString;
+  }
+
+  getGameHour(day: Date): number{
+    const date = new Date(day);
+
+    let dayString = day.toDateString().split(" ")[1];
+    console.log(dayString[1]);
+
+    return date.getUTCHours();
   }
 
   toggleSpread(){
@@ -118,6 +171,18 @@ export class GamecardComponent implements OnInit, OnChanges {
         }
       });
     }
+  }
+
+  canPlacePrediction(): boolean{
+    let now = new Date().getTime();
+    if(this.gameDate){
+      if(now > this.gameDate.getTime()){
+        return false;
+      }else{
+        return true;
+      }
+    }
+    return false;
   }
 
   deleteGame(): void{
