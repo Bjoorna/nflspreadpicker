@@ -2,10 +2,15 @@
     <div class="gamecardcontent" [ngClass]="{'update': updateSpread || updateResult }" *ngIf="!isUpdating">
         <div class="infoview">
             <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
-            <p *ngIf="gameDate" class="infoviewdate">
+            <!-- <p *ngIf="gameDate" class="infoviewdate">
                 {{getGameHour(gameDate)}}:00 - {{getGameDay(gameDate)}} 
                 {{gameDate.toDateString().split(" ")[1]}} {{gameDate.getUTCDate() +1}}
+            </p> -->
+            <p *ngIf="gameDate" class="infoviewdate">
+                <!-- {{gameDate | date:'shortTime'}} {{gameDate | date: "mediumDate" }} -->
+                {{gameDate | date:'HH:mm E d LLL'}} 
             </p>
+
             <div *ngIf="isAdmin" class="gameoptions">
                 <button [matMenuTriggerFor]="menu" class="adminbutton" color="primary" mat-icon-button>
                     <mat-icon>more_horiz</mat-icon>

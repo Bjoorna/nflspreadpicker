@@ -54,7 +54,7 @@ export class AddgameComponent implements OnInit {
   testButton(){
     console.log(this.dateFormControl.value);
     console.log(this.gameWindowControl.value);
-
+    this.getDateNumberValue
   }
 
   getTeam(isHome: string): ITeam{
@@ -69,17 +69,20 @@ export class AddgameComponent implements OnInit {
     return team;
   }
 
+  setUTCTime(date: Date): number{
+    return 1;
+  }
+
   getDateNumberValue(date: Date, window: string): number{
 
     let newDate = date;
 
     switch(window){
-      case "no": {
-        newDate.setHours(22);
-        newDate.setMinutes(0);
+      case "thu": {
+        newDate.setHours(2);
+        newDate.setMinutes(20);
         console.log(newDate);
         console.log(newDate.getTime());
-
         break;
       }
       case "early": {
@@ -90,7 +93,6 @@ export class AddgameComponent implements OnInit {
         console.log(newDate.getTime());
         break;
       }
-
       case "late":{
         newDate.setHours(22);
         newDate.setMinutes(0);
@@ -101,12 +103,16 @@ export class AddgameComponent implements OnInit {
         break;
       }
       case "snf":{
-        newDate.setHours(23);
-        newDate.setMinutes(0);
+        newDate.setHours(2);
+        newDate.setMinutes(20);
 
         console.log(newDate);
         console.log(newDate.getTime());
-
+        break;
+      }
+      case "mon":{
+        newDate.setHours(2);
+        newDate.setMinutes(20);
         break;
       }
 
@@ -114,7 +120,7 @@ export class AddgameComponent implements OnInit {
         break;
       }
     }
-    
+    console.log(newDate);
     return newDate.getTime();
   }
 
