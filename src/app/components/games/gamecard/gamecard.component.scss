@@ -128,11 +128,15 @@
         justify-content: space-evenly;
         align-items: center;
 
+        border-radius: 40px;
+
+        // background-color: green;
+
         .predictionbutton{
             height: 40px;
             border-radius: 20px;
         }
-
+        
         .predictedbutton{
             height: 40px;
             border-radius: 20px;
@@ -140,6 +144,18 @@
             color: white;
             background-color: #674270;
         }
+    }
+
+    .correctprediction{
+
+        border-radius: 40px;
+        border: 2px solid green;
+    }
+
+    .wrongprediction{
+        border-radius: 40px;
+        border: 2px solid red;
+
     }
 
     .favnotsettext{
@@ -152,7 +168,6 @@
 
     .gameoptions{
         margin-left: auto;
-        // grid-area: etc;
         display: flex;
         flex-direction: row;
         align-items: center;

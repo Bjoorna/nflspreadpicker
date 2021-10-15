@@ -9,5 +9,6 @@ export interface IGame{
     favorite: ITeam | null;
     result: Array<number>;
     time?: number;
+    winnerprediction?: number
   }
   

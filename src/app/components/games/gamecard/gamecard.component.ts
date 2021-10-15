@@ -30,9 +30,11 @@ export class GamecardComponent implements OnInit, OnChanges {
 
   updateSpread: boolean = false;
   updateResult: boolean = false;
+  updateWinnerPred: boolean = false;
 
   newSpread: FormControl = new FormControl(null);
   newFavorite: FormControl = new FormControl(null);
+  winnerPred: FormControl = new FormControl(null);
 
   newHometeamResult = new FormControl(null);
   newAwayteamResult = new FormControl(null);
@@ -48,9 +50,9 @@ export class GamecardComponent implements OnInit, OnChanges {
     this.gameService.getGameByID(this.gameID).subscribe(resData => {
       if(resData.payload){
         this.game = resData.payload;
+
         if(this.game.time){
           this.gameDate = new Date(this.game.time);
-          console.log(this.gameDate) 
         }
         // console.log(this.game);
       }
@@ -132,10 +134,16 @@ export class GamecardComponent implements OnInit, OnChanges {
 
   toggleSpread(){
     this.updateSpread = !this.updateSpread;
+    if(this.updateResult){
+      this.updateResult = false;
+    }
   }
 
   toggleResult(){
     this.updateResult = !this.updateResult;
+    if(this.updateSpread){
+      this.updateSpread = false;
+    }
   }
 
   onUpdateSpread(){
@@ -155,13 +163,10 @@ export class GamecardComponent implements OnInit, OnChanges {
   }
 
   onUpdateResult(){
-    console.log(this.newHometeamResult.value);
-    console.log(this.newAwayteamResult.value);
-
     let newGameData: IGame = this.game;
 
     newGameData.result = [this.newHometeamResult.value, this.newAwayteamResult.value]
-
+    newGameData.winnerprediction = this.winnerPred.value;
     this.isUpdating = true; {
       this.gameService.updateGame(this.gameID, newGameData).subscribe(resData => {
         if(resData.payload){
@@ -212,6 +217,95 @@ export class GamecardComponent implements OnInit, OnChanges {
     }
   }
 
+  isPredictionCorrect(): boolean{
+    if(this.gamePrediction && this.game.winnerprediction){
+      if(this.gamePrediction.spreadPrediction == this.game.winnerprediction){
+        return true;
+      }
+      return false;
+    }
+    return false;
+  }
+
+  // didCoverSpread(isFavorite: boolean, result: number[]): boolean{
+    
+  //   return false;
+  // }
+
+  // testPred(): any{
+  //   let userPred;
+    
+
+  //   if(this.gamePrediction){
+  //     userPred = this.gamePrediction.spreadPrediction;
+  //   }
+
+  //   if(userPred = 1){
+  //     // is hometeam favorite
+  //     if(this.isTeamFavorite(this.game.hometeam, this.game)){
+
+  //     }
+
+  //   }
+
+  // }
+
+  // isPredictionCorrect(): boolean{
+  //   // const hasResult = this.game.result.length > 0;
+  //   // let difference; 
+  //   // if(hasResult){
+  //   //   difference = Math.abs(this.game.result[0] - this.game.result[1]);
+  //   //   console.log(difference);
+  //   // }
+  //   // let userSpreadPrediction;
+  //   // let gameFavorite;
+
+  //   // let winner: ITeam;
+
+  //   // if(this.game.result[0] > this.game.result[1]){
+  //   //   winner = this.game.hometeam;
+  //   // }else{
+  //   //   winner = this.game.awayteam;
+  //   // }
+
+  //   // let isWinnerFavorite = this.isTeamFavorite(winner, this.game);
+
+  //   // let didCoverSpread
+
+  //   // if(isWinnerFavorite){
+
+  //   // }
+
+  //   // get prediction
+  //   // 
+
+
+  //   // let favorite = this.game.favorite;
+  //   // if(hasResult){
+  //   //   difference = Math.abs(this.game.result[0] - this.game.result[1]);
+  //   //   console.log(difference);
+
+  //   //   if(this.game.result[0]>this.game.result[1]){
+  //   //     winner = 1;
+  //   //   }else if(this.game.result[0]<this.game.result[1]){
+  //   //     winner = 2;
+  //   //   }else{
+  //   //     winner = 0;
+  //   //   }
+  //   // }
+
+  //   // if(this.game.favorite?.name == this.game.hometeam.name){
+  //   //   gameFavorite = 1;
+  //   // }else{
+  //   //   gameFavorite = 2;
+  //   // }
+
+  //   // if(this.gamePrediction){
+  //   //   console.log(this.gamePrediction);
+  //   //   userSpreadPrediction = this.gamePrediction.spreadPrediction;
+  //   // }
+  //   return false;
+  // }
 
 }
 
