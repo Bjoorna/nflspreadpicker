@@ -13,6 +13,7 @@ import { AuthService } from 'src/app/services/auth.service';
 import { FormControl } from '@angular/forms';
 import { Observable, Subscription } from 'rxjs';
 import { INewTempPrediction } from './gamecard/gamecard.component';
+import { AdminService } from 'src/app/services/admin.service';
 
 @Component({
   selector: 'app-games',
@@ -39,9 +40,10 @@ export class GamesComponent implements OnInit {
   isSettingPrediction: boolean = false;
 
   teamFilter!: string | null;
-
   weekFilter!: number | null;
-  defaultWeek: number = 6;
+
+  onWeek: number = 0;
+  defaultWeek: number = 7;
 
   isLoading: boolean = false;
 
@@ -49,7 +51,8 @@ export class GamesComponent implements OnInit {
       private teamService: TeamService,
       private gameService: GameService,
       private userService: UserService,
-      private authService: AuthService) { }
+      private authService: AuthService,
+      private adminService: AdminService) { }
 
 
   ngOnInit(): void {
@@ -58,8 +61,12 @@ export class GamesComponent implements OnInit {
     });
 
     this.getTeams();
-
-    this.getGames();
+    this.adminService.getGameWeek().subscribe(resData => {
+      if(resData.payload){
+        this.onWeek = resData.payload;
+        this.getGames(this.onWeek);
+      }
+    });
 
     this.authUser = this.authService.authCredentials.subscribe(user => {
       if(user != null){
@@ -75,17 +82,13 @@ export class GamesComponent implements OnInit {
   }
 
   teamFilterChange(event: any){
-    console.log(this.teamFilter);
-    
     let wantedTeam = this.teams.find(team => team.name == this.teamFilter);
-    console.log(wantedTeam);
     if(wantedTeam){
       this.getGames(undefined, wantedTeam);
     }
   }
 
   weekFilterChange(event: any){
-    console.log(this.weekFilter);
     if(this.weekFilter){
       this.getGames(this.weekFilter);
       this.teamFilter = null;
@@ -117,11 +120,11 @@ export class GamesComponent implements OnInit {
     this.teamService.getTeamsfromServer();
   }
 
-  testbutton(): void{
-    for(let game of this.gameView){
-      game.isUpdating = !game.isUpdating;
-    }
-  }
+  // testbutton(): void{
+  //   this.adminService.setGameWeek(8).subscribe(resData => {
+  //     console.log(resData);
+  //   });
+  // }
 
   getGamePrediction(gameID: string): IPrediction | null {
     let pred = this.userPredictions.get(gameID);
@@ -136,7 +139,6 @@ export class GamesComponent implements OnInit {
       // if predicted on before
     if(this.userPredictions.has(pred.oldPred.game)){
       let existingPred = this.userPredictions.get(pred.oldPred.game);
-      console.log(existingPred);
       if(existingPred){
         // se if user wants to cancel prediction
         if(existingPred.spreadPrediction == pred.newSpreadPred){
@@ -160,7 +162,6 @@ export class GamesComponent implements OnInit {
   setPrediction(pred: IPrediction): void{
     // set new prediction
     this.userService.setPrediction(this.userID, pred).subscribe(resData => {
-      console.log(resData);
       if(resData.payload){
         this.populatePredictionMap(resData.payload);
       }
@@ -171,7 +172,6 @@ export class GamesComponent implements OnInit {
     if(this.userID){
       this.userService.getUserPredictionsFromServer(this.userID).subscribe(result => {
         let preds: IPrediction[] = result.payload;
-        
         this.populatePredictionMap(preds);
       });
     }
@@ -218,16 +218,12 @@ export class GamesComponent implements OnInit {
       } 
       gameViewList.push(newGame);
     }
-    console.log(gameViewList);
-
     return gameViewList;
   }
 
   deleteGame(gameid: string): void {
-    console.log(gameid);
     this.gameService.deleteGame(gameid).subscribe(resData => {
       if(resData.message){
-        console.log(resData.message);
         this.getGames();
       }
     })

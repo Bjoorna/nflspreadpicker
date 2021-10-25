@@ -6,6 +6,8 @@
             <button mat-icon-button routerLink="/addgame" class="gamesbutton"><mat-icon>add</mat-icon></button>    
             <button *ngIf="isLoggedIn" mat-icon-button routerLink="/user" class="gamesbutton"><mat-icon>account_circle</mat-icon></button>
             <button *ngIf="isLoggedIn" mat-icon-button routerLink="/user" class="gamesbutton"><mat-icon>leaderboard</mat-icon></button>
+            <button *ngIf="isLoggedIn && isAdmin" mat-icon-button routerLink="/admin" class="gamesbutton"><mat-icon>admin_panel_settings</mat-icon></button>
+
 
         </div>
 

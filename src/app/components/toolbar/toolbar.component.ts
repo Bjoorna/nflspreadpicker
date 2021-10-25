@@ -12,6 +12,7 @@ export class ToolbarComponent implements OnInit {
 
   authUser!: Subscription;
   isLoggedIn: boolean = false;
+  isAdmin: boolean = false;
 
 
   constructor(private authService: AuthService, private router: Router) { }
@@ -22,9 +23,13 @@ export class ToolbarComponent implements OnInit {
     this.authUser = this.authService.authCredentials.subscribe(user => {
       if(user != null){
         this.isLoggedIn = true;
+        if(user.isAdmin){
+          this.isAdmin = true;
+        }
       }
       if(user == null){
         this.isLoggedIn = false;
+        this.isAdmin = false;
         this.router.navigate(['auth']);
       }
     });
