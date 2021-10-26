@@ -1,5 +1,7 @@
 <div class="gamecard"  *ngIf="game">
     <div class="gamecardcontent" [ngClass]="{'update': updateSpread || updateResult }" *ngIf="!isUpdating">
+        <div class="predictionresult" [ngClass]="{'correctprediction' :isPredictionCorrect(), 'wrongprediction': gamePrediction && !isPredictionCorrect() && game.winnerprediction}">
+        </div>
         <div class="infoview">
             <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
             <!-- <p *ngIf="gameDate" class="infoviewdate">
@@ -51,7 +53,9 @@
         </div>
 
 
-        <div class="buttonrow" [ngClass]="{'correctprediction' :isPredictionCorrect(), 'wrongprediction': gamePrediction && !isPredictionCorrect() && game.winnerprediction}">
+        <!-- <div class="buttonrow" [ngClass]="{'correctprediction' :isPredictionCorrect(), 'wrongprediction': gamePrediction && !isPredictionCorrect() && game.winnerprediction}"> -->
+        <div class="buttonrow">
+
             <button matTooltip="Too late to place prediction" [matTooltipDisabled]="canPlacePrediction()" 
             [disabled]="!canPlacePrediction()" (click)="setPrediction(1)" 
             [ngClass]="{'predictedbutton' : seeIfPredicted( 1)}"  
