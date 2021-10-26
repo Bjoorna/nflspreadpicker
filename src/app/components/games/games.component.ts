@@ -56,10 +56,6 @@ export class GamesComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.teamService.teams.subscribe(teams => {
-      this.teams = teams;
-    });
-
     this.getTeams();
     this.adminService.getGameWeek().subscribe(resData => {
       if(resData.payload){

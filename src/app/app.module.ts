@@ -32,6 +32,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatProgressBarModule} from '@angular/material/progress-bar'; 
 import {MatAutocompleteModule} from '@angular/material/autocomplete'; 
 import {MatTooltipModule} from '@angular/material/tooltip'; 
+import {MatExpansionModule} from '@angular/material/expansion'; 
 import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
 
 
@@ -68,7 +69,8 @@ import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
     MatProgressSpinnerModule,
     MatProgressBarModule,
     MatAutocompleteModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatExpansionModule
   ],
   providers: [MatDatepickerModule,
     {provide: HTTP_INTERCEPTORS,

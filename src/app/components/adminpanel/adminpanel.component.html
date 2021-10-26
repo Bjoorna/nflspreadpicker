@@ -21,5 +21,38 @@
                 </div>
             </div>
         </div>
+        
+        <div class="teamcontainer">
+            <div class="settingsheader">
+                <h3>Teams</h3>
+            </div> 
+            <mat-divider></mat-divider>
+
+            <div class="teamlist">
+                <mat-accordion displayMode="flat">
+                    <mat-expansion-panel *ngFor="let team of teams">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>{{team.name}}</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="teamsettings">
+                            <div class="recordupdate">
+                                <div class="label">Team Record</div>
+                                <div class="currentrecord">
+                                    {{team.record[0]}}-{{team.record[1]}}
+                                </div>
+                                <div class="recordupdatebuttons">
+                                    <button (click)="updateRecord(team, true)" mat-icon-button color="primary"><mat-icon>add</mat-icon></button>
+                                    <button (click)="updateRecord(team, false)" mat-icon-button color="warn"><mat-icon>remove</mat-icon></button>
+                                </div>
+                            </div>
+                        </div>
+                        <mat-action-row>
+                            <button (click)="storeTeamUpdate(team)" mat-button color="primary">Update Team</button>
+                        </mat-action-row>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </div>
+        </div>
     </div>
+    
 </div>

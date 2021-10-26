@@ -178,6 +178,44 @@ export class GamecardComponent implements OnInit, OnChanges {
     }
   }
 
+  updateTeamRecords(game: IGame): void{
+    let result = game.result;
+    let hometeam = game.hometeam;
+    let awayteam = game.awayteam
+    // homewin
+    if(result[0] > result[1]){
+      // update hometeam;
+      if(hometeam.record.length > 0){
+        hometeam.record[0] += 1;
+      }else{
+        hometeam.record = [1, 0];
+      }
+
+      // update awayteam
+      if(awayteam.record.length > 0){
+        awayteam.record[1] + 1
+      }else{
+        awayteam.record = [0,1];
+      }
+    }else if(result[0] < result[1]){ // awaywin 
+      // hometeam
+      if(hometeam.record.length > 0){
+        hometeam.record[1] += 1;
+      }else{
+        hometeam.record = [0,1];
+      }
+
+      // awayteam
+      if(awayteam.record.length > 0) {
+        awayteam.record[0] += 1;
+      }else{
+        awayteam.record = [1,0];
+      }
+    } 
+
+    
+  }
+
   canPlacePrediction(): boolean{
     let now = new Date().getTime();
     if(this.gameDate){

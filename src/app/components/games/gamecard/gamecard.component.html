@@ -4,12 +4,7 @@
         </div>
         <div class="infoview">
             <p class="infoviewlabel">Week: </p> <p class="infoviewvalue">{{game.week}}</p>
-            <!-- <p *ngIf="gameDate" class="infoviewdate">
-                {{getGameHour(gameDate)}}:00 - {{getGameDay(gameDate)}} 
-                {{gameDate.toDateString().split(" ")[1]}} {{gameDate.getUTCDate() +1}}
-            </p> -->
             <p *ngIf="gameDate" class="infoviewdate">
-                <!-- {{gameDate | date:'shortTime'}} {{gameDate | date: "mediumDate" }} -->
                 {{gameDate | date:'HH:mm E d LLL'}} 
             </p>
 
@@ -20,7 +15,6 @@
                 <mat-menu #menu="matMenu">
                     <button (click)="toggleSpread()" mat-menu-item>Change Line</button>
                     <button (click)="toggleResult()"  mat-menu-item>Add Result</button>
-                    <!-- <button (click)="toggleLarge()" mat-menu-item>Large</button> -->
                     <button (click)="deleteGame()" mat-menu-item>Delete Game</button>
                 </mat-menu>
             </div>
@@ -33,7 +27,7 @@
                 <img src="{{game.hometeam.imageurl}}" alt="{{game.hometeam.name}}">
             </div>
             <p class="teamname">{{game.hometeam.name}}</p>
-            <p class="record">({{game.hometeam.record}})</p>
+            <p class="record">({{game.hometeam.record[0]}}-{{game.hometeam.record[1]}})</p>
     
         </div>
         <div class="awayteam teamview">
@@ -41,7 +35,7 @@
                 <img src="{{game.awayteam.imageurl}}" alt="{{game.awayteam.name}}">
             </div>
             <p class="teamname">{{game.awayteam.name}}</p>
-            <p class="record">({{game.awayteam.record}})</p>
+            <p class="record">({{game.awayteam.record[0]}}-{{game.awayteam.record[1]}})</p>
         </div>
 
 

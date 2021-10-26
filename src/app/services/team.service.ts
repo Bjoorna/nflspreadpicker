@@ -14,27 +14,21 @@ import { ThisReceiver } from "@angular/compiler";
 
 export class TeamService{
 
-
-    // teams: ITeam[] = []
-
-    teams: BehaviorSubject<ITeam[]> =  new BehaviorSubject(Array<ITeam>());
-
     constructor(private http: HttpClient){}
 
-
-    getTeamsfromServer(): void{
+    getTeamsfromServer(): Observable<IServerResponse>{
         const localhost = environment.localhost + "team";
         const server = environment.server + "team"
 
-        if(this.teams.value.length > 0){
-            return;
-        }
-        this.http.get<IServerResponse>(server).subscribe(result => {
-            if(result.error){
-                console.log(result.error);
-            }else{
-                this.teams.next(result.payload as ITeam[]);
-            }
-        });
+        return this.http.get(server);
+    }
+
+    updateTeam(team: ITeam): Observable<IServerResponse>{
+        
+        const localhost = environment.localhost + "team/" + team._id;
+        const server = environment.server + "team/" + team._id;
+
+        return this.http.put(server, team);
+
     }
 }

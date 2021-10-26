@@ -3,5 +3,5 @@ export interface ITeam{
     name: string;
     abbreviation: string;
     imageurl: string;
-    record?: string;
+    record: Array<number>;
 }

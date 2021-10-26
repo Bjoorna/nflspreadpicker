@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { AdminService } from 'src/app/services/admin.service';
 import { GameService } from 'src/app/services/game.service';
 import { TeamService } from 'src/app/services/team.service';
 import { IGame } from 'src/app/shared/interfaces/game.interface';
@@ -20,6 +21,8 @@ export class AddgameComponent implements OnInit {
 
   teams: ITeam[] = [];
 
+  onWeek!: number;
+
 
   // throwawaylist: string[] = ["HomeTeam", "AwayTeam"];
 
@@ -29,21 +32,30 @@ export class AddgameComponent implements OnInit {
   dateNumberValue: number = 0;
   constructor(private teamService: TeamService,
               private gameService: GameService,
-              private router: Router) { }
+              private router: Router,
+              private adminService: AdminService) { }
 
   ngOnInit(): void {
     this.initForm();
-    this.teamsSub = this.teamService.teams.subscribe(teams => {
-      this.teams = teams;
+    this.teamService.getTeamsfromServer().subscribe(resData => {
+      if(resData.payload){
+        this.teams = resData.payload;
+      }
     });
-    this.teamService.getTeamsfromServer();
+
+    
+    this.adminService.getGameWeek().subscribe(week => {
+      let changeWeek = this.gameForm.get("week");
+      changeWeek?.setValue(week.payload);
+    });
+    
   }
 
   initForm(): void{
     this.gameForm = new FormGroup({
       "hometeam": new FormControl(null, [Validators.required]),
       "awayteam": new FormControl(null, [Validators.required]),
-      "week": new FormControl(null, [Validators.required]),
+      "week": new FormControl(this.onWeek, [Validators.required]),
       "favorite": new FormControl(null),
       "spread": new FormControl(null),
       "hscore": new FormControl(null),
