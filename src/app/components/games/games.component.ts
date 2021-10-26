@@ -113,7 +113,11 @@ export class GamesComponent implements OnInit {
   }
 
   getTeams(): void{
-    this.teamService.getTeamsfromServer();
+    this.teamService.getTeamsfromServer().subscribe(resData => {
+      if(resData.payload){
+        this.teams = resData.payload;
+      }
+    });
   }
 
   // testbutton(): void{
